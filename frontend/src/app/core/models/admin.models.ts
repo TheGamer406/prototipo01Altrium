@@ -5,5 +5,8 @@
  * Procesa:    Solo interfaces y tipos unión; deben coincidir con los DTO del backend.
  * Devuelve:   —
  * Se conecta: ← core/api/admin.api.ts y features
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+export interface SeedSummary { seededAt: string; services: number; branches: number; }
+export interface SimulationResult { description: string; results: string[]; }
