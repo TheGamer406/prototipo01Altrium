@@ -76,6 +76,7 @@ services:
     environment:
       DEMO_USER: ${DEMO_USER}
       DEMO_PASSWORD: ${DEMO_PASSWORD}
+      DEMO_EXTRA_USERS: ${DEMO_EXTRA_USERS:-}
       TZ: ${TZ}
     ports:
       - "5471:80"
@@ -92,6 +93,7 @@ services:
     environment:
       DEMO_USER: ${DEMO_USER}
       DEMO_PASSWORD: ${DEMO_PASSWORD}
+      DEMO_EXTRA_USERS: ${DEMO_EXTRA_USERS:-}
     ports:
       - "5472:80"
     networks: [acompana-net]
