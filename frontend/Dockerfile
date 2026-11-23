@@ -5,7 +5,7 @@
 # Devuelve:   Contenedor en :80 con basic auth (DEMO_USER / DEMO_PASSWORD) y proxy /api y /hubs al API.
 # Se conecta: ← docker-compose.yml (servicio web) · → nginx/default.conf, nginx/entrypoint.sh
 # Estado:     Completo
-FROM node:22-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
