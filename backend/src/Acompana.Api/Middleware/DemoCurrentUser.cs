@@ -6,5 +6,19 @@
  * Devuelve:   Propiedades de ICurrentUser.
  * Se conecta: ← DemoUserMiddleware · → handlers, AuditInterceptor
  * Reglas:     RF-30
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Application.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Api.Middleware;
+
+public sealed class DemoCurrentUser : ICurrentUser
+{
+    public DemoRole Role { get; set; } = DemoRole.Management;
+    public long? BranchId { get; set; }
+    public string DisplayName { get; set; } = "Sistema";
+    public bool SeesAllBranches => Role == DemoRole.Management;
+    public long? ProviderId { get; set; }
+}
