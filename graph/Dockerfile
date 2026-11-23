@@ -5,7 +5,7 @@
 # Devuelve:   Contenedor acompana-graph en :80.
 # Se conecta: ← docker-compose.yml (servicio graph, perfil extras)
 # Estado:     Completo
-FROM nginx:1.27-alpine
+FROM nginx:1.31-alpine
 RUN apk add --no-cache apache2-utils
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY entrypoint.sh /docker-entrypoint.d/10-htpasswd.sh
