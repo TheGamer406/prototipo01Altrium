@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Acompana.Application\Acompana.Application.csproj" />
+    <ProjectReference Include="..\Acompana.Infrastructure\Acompana.Infrastructure.csproj" />
+  </ItemGroup>
+  <!-- Paquetes (fase 2): Swashbuckle.AspNetCore, Microsoft.EntityFrameworkCore.Design 8.x -->
+</Project>
