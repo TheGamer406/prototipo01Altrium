@@ -11,7 +11,7 @@ WORKDIR /src
 COPY . .
 RUN dotnet publish src/${PROJECT}/${PROJECT}.csproj -c Release -o /out
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:11.0
 ARG PROJECT=Acompana.Api
 ENV APP_DLL=${PROJECT}.dll
 RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
