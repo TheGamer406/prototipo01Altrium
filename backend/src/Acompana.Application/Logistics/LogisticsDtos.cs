@@ -15,5 +15,12 @@
  *               operator? }
  * Se conecta: ← LogisticsController · → core/models/logistics.models.ts
  * Reglas:     RF-20 a RF-25
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Application.Logistics;
+
+public record ChapelBookingDto(Guid Id, string ServiceCode, DateTimeOffset From, DateTimeOffset To);
+public record ChapelDayDto(long Id, string Name, int Capacity, IReadOnlyList<ChapelBookingDto> Bookings);
+public record ChapelCalendarDto(IReadOnlyList<ChapelDayDto> Chapels);
+public record BookChapelRequest(long ChapelId, Guid ServiceId, DateTimeOffset From, DateTimeOffset To);

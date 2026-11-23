@@ -10,5 +10,12 @@
  *             CasketModelDto { id, sku, name, material, origin, priceCrc, imagePath, stockInBranch? }
  * Se conecta: ← CatalogController · → core/models/catalog.models.ts
  * Reglas:     RF-04 · RF-06
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Application.Catalog;
+
+public record ComponentDto(long Id, string Name, string Category, decimal PriceCrc, int TaxExemptPct, bool RequiresProvider, string? ProviderType, string? ImagePath, bool Active);
+public record PackageItemDto(long ComponentId, string Name, string Category, int Qty, decimal PriceCrc, int TaxExemptPct, bool RequiresProvider);
+public record PackageDto(long Id, string Name, string Description, decimal PriceCrc, IReadOnlyList<PackageItemDto> Items, string? ImagePath, bool Active);
+public record CasketModelDto(long Id, string Sku, string Name, string Material, string Origin, decimal PriceCrc, string ImagePath, int? StockInBranch);
