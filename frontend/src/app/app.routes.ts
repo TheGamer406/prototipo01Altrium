@@ -28,9 +28,9 @@ const page = (path: string, title: string, description: string, rf: string[], ro
 export const routes: Routes = [
   { path: '', pathMatch: 'full', canActivate: [() => inject(Router).parseUrl(ROLE_HOME[inject(RoleContextService).role()])], children: [] },
   page('inicio', 'Inicio', 'Resumen de la sede: servicios de hoy, alertas, capillas y cofres.', ['RF-19', 'RF-29'], ALL),
-  page('servicios', 'Servicios', 'Lista, asistente de registro y detalle de cada servicio.', ['RF-01', 'RF-19'], ['Advisor', 'BranchManager', 'Management']),
-  page('proveedores', 'Proveedores', 'Oportunidades abiertas y cartera de proveedores.', ['RF-14', 'RF-17'], ['BranchManager', 'Management']),
-  page('bandeja', 'Bandeja del proveedor', 'Ofertas abiertas e historial.', ['RF-15', 'RF-16'], ['Provider']),
+  { path: 'servicios', canActivate: [roleGuard], data: { roles: ['Advisor', 'BranchManager', 'Management'] }, loadChildren: () => import('./features/services/services.routes').then(m => m.servicesRoutes) },
+  { path: 'proveedores', canActivate: [roleGuard], data: { roles: ['BranchManager', 'Management'] }, loadChildren: () => import('./features/providers/providers.routes').then(m => m.providersRoutes) },
+  { path: 'bandeja', canActivate: [roleGuard], data: { roles: ['Provider'] }, loadComponent: () => import('./features/provider-inbox/provider-inbox.page').then(m => m.ProviderInboxPage) },
   page('capillas', 'Capillas', 'Calendario de capillas por sede.', ['RF-20'], ['Advisor', 'BranchManager', 'Management']),
   page('personal', 'Personal', 'Asignación de personal por turno.', ['RF-25'], ['BranchManager', 'Management']),
   page('traslados', 'Traslados', 'Mapa y hitos de los traslados.', ['RF-22', 'RF-23', 'RF-24'], ['BranchManager', 'Management']),

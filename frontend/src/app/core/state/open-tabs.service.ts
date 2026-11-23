@@ -37,6 +37,12 @@ export class OpenTabsService {
     void this.router.navigate(['/servicios', id]);
   }
 
+  /** Registra la pestaña sin navegar (la ruta ya está abierta). */
+  register(id: string, code: string): void {
+    if (this.tabs().some(t => t.id === id)) return;
+    this.tabs.update(t => [...t, { id, code, dirty: false }].slice(-MAX_TABS)); this.save();
+  }
+
   setDirty(id: string, dirty: boolean): void {
     this.tabs.update(t => t.map(x => x.id === id ? { ...x, dirty } : x)); this.save();
   }

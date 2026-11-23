@@ -6,5 +6,11 @@
  * Devuelve:   Vista de la pestaña; acciones vía el Api correspondiente.
  * Se conecta: ← service-detail.page
  * Reglas:     RF-15 a RF-17
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+import { Component, Input } from '@angular/core';
+import { ServiceBoardComponent } from './service-board.component';
+
+@Component({ selector: 'app-detail-providers-tab', standalone: true, imports: [ServiceBoardComponent], template: `<app-service-board [serviceId]="serviceId" />` })
+export class DetailProvidersTab { @Input({ required: true }) serviceId!: string; }
