@@ -12,7 +12,7 @@ RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 COPY . .
 RUN npx ng build --configuration production
 
-FROM nginx:1.27-alpine
+FROM nginx:1.31-alpine
 RUN apk add --no-cache apache2-utils
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY nginx/entrypoint.sh /docker-entrypoint.d/10-htpasswd.sh
