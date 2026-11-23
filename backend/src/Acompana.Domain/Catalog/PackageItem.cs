@@ -6,5 +6,17 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← Package.Items
  * Reglas:     RF-04
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+
+namespace Acompana.Domain.Catalog;
+
+public class PackageItem : Entity
+{
+    public long PackageId { get; set; }
+    public long ComponentId { get; set; }
+    public Component? Component { get; set; }
+    public int Qty { get; set; } = 1;
+}

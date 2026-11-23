@@ -7,5 +7,20 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← ServiceLine.CasketModelId, CasketStock
  * Reglas:     RF-04 · RF-26
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Domain.Catalog;
+
+public class CasketModel : Entity
+{
+    public string Sku { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Material { get; set; } = "";
+    public CasketOrigin Origin { get; set; }
+    public decimal PriceCrc { get; set; }
+    public string ImagePath { get; set; } = "";
+}

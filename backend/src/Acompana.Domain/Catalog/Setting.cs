@@ -7,5 +7,19 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← SettingsHandler, OfferTimeoutChecker, TransferDelayChecker
  * Reglas:     RF-17 · RF-24
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+
+namespace Acompana.Domain.Catalog;
+
+public class Setting : Entity
+{
+    public string Key { get; set; } = "";
+    public string Value { get; set; } = "";
+
+    public const string ProviderAcceptTimeoutMin = "ProviderAcceptTimeoutMin";
+    public const string TransferThresholdMin = "TransferThresholdMin";
+    public const string DefaultMinStock = "DefaultMinStock";
+}

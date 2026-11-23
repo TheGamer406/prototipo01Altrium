@@ -8,5 +8,25 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← DeductCasketHandler · → StockQuery, alerta LowStock
  * Reglas:     RF-26 · RF-27
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+
+namespace Acompana.Domain.Inventory;
+
+public class CasketStock : Entity, IHasBranch
+{
+    public long BranchId { get; set; }
+    public long CasketModelId { get; set; }
+    public int Qty { get; set; }
+    public int MinQty { get; set; }
+    public uint Version { get; set; }
+
+    public bool IsAtOrBelowMin => Qty <= MinQty;
+
+    public void Deduct(int qty)
+    {
+        Qty = Math.Max(0, Qty - qty);
+    }
+}
