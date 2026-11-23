@@ -5,7 +5,7 @@
 # Devuelve:   Contenedor que escucha en ASPNETCORE_HTTP_PORTS (8080 api, 8081 mock).
 # Se conecta: ← docker-compose.yml (servicios api e integrations-mock)
 # Estado:     Completo
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:11.0 AS build
 ARG PROJECT=Acompana.Api
 WORKDIR /src
 COPY . .
