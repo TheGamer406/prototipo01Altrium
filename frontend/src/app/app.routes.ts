@@ -27,7 +27,7 @@ const page = (path: string, title: string, description: string, rf: string[], ro
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', canActivate: [() => inject(Router).parseUrl(ROLE_HOME[inject(RoleContextService).role()])], children: [] },
-  page('inicio', 'Inicio', 'Resumen de la sede: servicios de hoy, alertas, capillas y cofres.', ['RF-19', 'RF-29'], ALL),
+  { path: 'inicio', canActivate: [roleGuard], data: { roles: ALL }, loadComponent: () => import('./features/home/home.page').then(m => m.HomePage) },
   { path: 'servicios', canActivate: [roleGuard], data: { roles: ['Advisor', 'BranchManager', 'Management'] }, loadChildren: () => import('./features/services/services.routes').then(m => m.servicesRoutes) },
   { path: 'proveedores', canActivate: [roleGuard], data: { roles: ['BranchManager', 'Management'] }, loadChildren: () => import('./features/providers/providers.routes').then(m => m.providersRoutes) },
   { path: 'bandeja', canActivate: [roleGuard], data: { roles: ['Provider'] }, loadComponent: () => import('./features/provider-inbox/provider-inbox.page').then(m => m.ProviderInboxPage) },
@@ -37,8 +37,8 @@ export const routes: Routes = [
   page('cremacion', 'Cremación', 'Cola del crematorio central.', ['RF-21'], ['CrematoriumOperator', 'Management']),
   page('chofer', 'App del chofer', 'Hitos del traslado, incluso sin señal.', ['RF-22', 'RNF-05'], ['Driver']),
   page('inventario', 'Inventario de cofres', 'Existencias, alertas y reabastecimiento.', ['RF-26', 'RF-27', 'RF-28'], ['BranchManager', 'Management']),
-  page('central', 'Vista central', 'Mapa de sedes, servicios en curso y alertas.', ['RF-29'], ['Management']),
-  page('analitica', 'Analítica', 'Ventas, eficiencia por etapa y servicios por zona.', ['RF-32', 'RF-33', 'RF-34'], ['Management']),
+  { path: 'central', canActivate: [roleGuard], data: { roles: ['Management'] }, loadChildren: () => import('./features/central/central.routes').then(m => m.centralRoutes) },
+  { path: 'analitica', canActivate: [roleGuard], data: { roles: ['Management'] }, loadChildren: () => import('./features/analytics/analytics.routes').then(m => m.analyticsRoutes) },
   page('bitacora', 'Bitácora', 'Quién cambió qué y cuándo.', ['RF-31'], ['Management']),
   page('mensajes', 'Mensajes', 'Correos simulados enviados.', ['RF-35'], ['Management', 'BranchManager']),
   page('catalogo', 'Catálogo', 'Componentes, paquetes y modelos de cofre.', ['RF-04', 'RF-06'], ['Management']),
