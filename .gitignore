@@ -1,0 +1,29 @@
+# Documentos locales y de trabajo
+_local/
+PROGRESS.md
+CLAUDE.md
+.claude/
+graphify-out/
+prototipo-spec.md
+context.md
+context-v0.2.md
+
+# Secretos
+.env
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+
+# Editores y sistema
+.vscode/*
+!.vscode/extensions.json
+*.log
+.DS_Store
