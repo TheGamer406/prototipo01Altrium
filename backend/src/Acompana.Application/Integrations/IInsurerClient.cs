@@ -6,7 +6,7 @@
  * Devuelve:   —
  * Se conecta: ← handlers · → Infrastructure/Integrations (HttpClient al servicio simulado)
  * Reglas:     RF-12
- * Estado:     Pendiente
+ * Estado:     Completo
  *
  * Contrato:
  *   Task SendNoticeAsync(InsurerNotice notice, CancellationToken ct)
@@ -14,3 +14,12 @@
  *     Procesa:    POST /aseguradoras/notices
  *     Devuelve:   Task (202)
  */
+
+namespace Acompana.Application.Integrations;
+
+public record InsurerNotice(string Insurer, string Policy, string Insured, string ServiceCode, decimal AmountCrc);
+
+public interface IInsurerClient
+{
+    Task SendNoticeAsync(InsurerNotice notice, CancellationToken ct);
+}

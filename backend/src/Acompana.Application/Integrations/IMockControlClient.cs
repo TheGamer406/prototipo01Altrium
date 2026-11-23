@@ -6,7 +6,7 @@
  * Devuelve:   —
  * Se conecta: ← handlers · → Infrastructure/Integrations (HttpClient al servicio simulado)
  * Reglas:     —
- * Estado:     Pendiente
+ * Estado:     Completo
  *
  * Contrato:
  *   Task SetCoreDownAsync(int minutes, CancellationToken ct) · Task
@@ -15,3 +15,12 @@
  *     Procesa:    POST /_control/core-down · POST /_control/reject-next
  *     Devuelve:   Task
  */
+
+namespace Acompana.Application.Integrations;
+
+public interface IMockControlClient
+{
+    Task SetCoreDownAsync(int minutes, CancellationToken ct);
+    Task RejectNextInvoiceAsync(CancellationToken ct);
+    Task ResetAsync(CancellationToken ct);
+}

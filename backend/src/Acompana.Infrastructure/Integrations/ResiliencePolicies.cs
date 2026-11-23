@@ -7,5 +7,20 @@
  * Devuelve:   IAsyncPolicy<HttpResponseMessage>.
  * Se conecta: ← DependencyInjection (AddPolicyHandler)
  * Reglas:     RNF-15
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Polly;
+using Polly.Extensions.Http;
+
+namespace Acompana.Infrastructure.Integrations;
+
+public static class ResiliencePolicies
+{
+    public static IAsyncPolicy<HttpResponseMessage> Retry() =>
+        HttpPolicyExtensions.HandleTransientHttpError()
+            .WaitAndRetryAsync(new[] { TimeSpan.FromMilliseconds(500), TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2) });
+
+    public static IAsyncPolicy<HttpResponseMessage> Timeout() =>
+        Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(5));
+}

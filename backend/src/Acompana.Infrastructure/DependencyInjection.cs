@@ -12,6 +12,8 @@
 
 using Acompana.Application.Admin;
 using Acompana.Application.Common;
+using Acompana.Application.Integrations;
+using Acompana.Infrastructure.Integrations;
 using Acompana.Infrastructure.Persistence;
 using Acompana.Infrastructure.Seed;
 using Acompana.Infrastructure.Time;
@@ -33,6 +35,17 @@ public static class DependencyInjection
             .AddInterceptors(sp.GetRequiredService<AuditInterceptor>()));
         services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IDemoSeeder, DemoSeeder>();
+
+        var mock = config["MockBaseUrl"] ?? "http://integrations-mock:8081";
+        void Client<TI, TImpl>() where TI : class where TImpl : class, TI =>
+            services.AddHttpClient<TI, TImpl>(c => c.BaseAddress = new Uri(mock))
+                .AddPolicyHandler(ResiliencePolicies.Retry())
+                .AddPolicyHandler(ResiliencePolicies.Timeout());
+        Client<ICoreAccountingClient, CoreAccountingClient>();
+        Client<IInsurerClient, InsurerClient>();
+        Client<IInventoryClient, InventoryClient>();
+        Client<IMailClient, MailClient>();
+        Client<IMockControlClient, MockControlClient>();
         return services;
     }
 }

@@ -6,7 +6,7 @@
  * Devuelve:   —
  * Se conecta: ← handlers · → Infrastructure/Integrations (HttpClient al servicio simulado)
  * Reglas:     RF-09 · RF-13 · RNF-15
- * Estado:     Pendiente
+ * Estado:     Completo
  *
  * Contrato:
  *   Task<CoreInvoiceResult> SendInvoiceAsync(CoreInvoiceRequest req, string idempotencyKey,
@@ -17,3 +17,16 @@
  *     Devuelve:   CoreInvoiceResult { Accepted: bool, CoreReference?: 'FE-0000001234', RejectReason?:
  *                   string }; lanza IntegrationUnavailableException si los 3 intentos fallan
  */
+
+namespace Acompana.Application.Integrations;
+
+public record CoreReceiver(string Name, string NationalId);
+public record CoreInvoiceLine(string Description, int Qty, decimal UnitPriceCrc, int TaxExemptPct);
+public record CoreInvoiceTotals(decimal Subtotal, decimal Exempt, decimal Tax, decimal Total);
+public record CoreInvoiceRequest(CoreReceiver Receiver, IReadOnlyList<CoreInvoiceLine> Lines, CoreInvoiceTotals Totals);
+public record CoreInvoiceResult(bool Accepted, string? CoreReference, string? RejectReason);
+
+public interface ICoreAccountingClient
+{
+    Task<CoreInvoiceResult> SendInvoiceAsync(CoreInvoiceRequest req, string idempotencyKey, CancellationToken ct);
+}

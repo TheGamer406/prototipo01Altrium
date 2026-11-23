@@ -6,7 +6,7 @@
  * Devuelve:   —
  * Se conecta: ← handlers · → Infrastructure/Integrations (HttpClient al servicio simulado)
  * Reglas:     RF-26 · RF-28
- * Estado:     Pendiente
+ * Estado:     Completo
  *
  * Contrato:
  *   Task<int> ReportMovementAsync(long branchId, string sku, int delta, CancellationToken ct) ·
@@ -16,3 +16,11 @@
  *     Devuelve:   saldo informado por el sistema externo · número de solicitud de bodega (p. ej.
  *                   'BOD-000045')
  */
+
+namespace Acompana.Application.Integrations;
+
+public interface IInventoryClient
+{
+    Task<int> ReportMovementAsync(long branchId, string sku, int delta, CancellationToken ct);
+    Task<string> RequestRestockAsync(long branchId, string sku, int qty, CancellationToken ct);
+}
