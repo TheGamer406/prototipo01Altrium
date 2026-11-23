@@ -7,5 +7,18 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← StaffAssignment, Transfer (DriverId), Cremation (OperatorId)
  * Reglas:     RF-25 · RNF-09
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Domain.Organization;
+
+public class Employee : Entity, IHasBranch
+{
+    public long BranchId { get; set; }
+    public string FullName { get; set; } = "";
+    public EmployeeRole Role { get; set; }
+    public Shift Shift { get; set; }
+}

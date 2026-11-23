@@ -7,5 +7,18 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← Service.DeceasedId
  * Reglas:     RF-01 · RF-02
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+
+namespace Acompana.Domain.Organization;
+
+public class Deceased : Entity
+{
+    public string FullName { get; set; } = "";
+    public string NationalId { get; set; } = "";
+    public DateOnly BirthDate { get; set; }
+    public DateOnly? DeathDate { get; set; }
+    public string CauseNote { get; set; } = "";
+}

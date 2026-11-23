@@ -7,5 +7,23 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← casi todo lo operativo cuelga de BranchId · → Chapels, Employees, CasketStock
  * Reglas:     RF-29 · RF-30 · RNF-09
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Domain.Organization;
+
+public class Branch : Entity
+{
+    public string Code { get; set; } = "";
+    public string Name { get; set; } = "";
+    public string Canton { get; set; } = "";
+    public string Province { get; set; } = "";
+    public Zone Zone { get; set; }
+    public double Lat { get; set; }
+    public double Lng { get; set; }
+    public bool HasChapels { get; set; }
+    public bool HasCrematorium { get; set; }
+}

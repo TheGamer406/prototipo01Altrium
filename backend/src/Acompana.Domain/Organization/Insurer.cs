@@ -6,5 +6,15 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← Service.InsurerId, Invoice (receptor)
  * Reglas:     RF-11 · RF-12
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+
+namespace Acompana.Domain.Organization;
+
+public class Insurer : Entity
+{
+    public string Name { get; set; } = "";
+    public string NoticeEmail { get; set; } = "";
+}
