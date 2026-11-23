@@ -24,3 +24,13 @@ public record ChapelBookingDto(Guid Id, string ServiceCode, DateTimeOffset From,
 public record ChapelDayDto(long Id, string Name, int Capacity, IReadOnlyList<ChapelBookingDto> Bookings);
 public record ChapelCalendarDto(IReadOnlyList<ChapelDayDto> Chapels);
 public record BookChapelRequest(long ChapelId, Guid ServiceId, DateTimeOffset From, DateTimeOffset To);
+
+public record CremationCardDto(long Id, string ServiceCode, string DeceasedName, string Status, int QueuePosition, string? Operator,
+    DateTimeOffset WaitingAt, DateTimeOffset? InOvenAt, DateTimeOffset? PackedAt, DateTimeOffset? DeliveredAt, string? ReceivedBy);
+public record CremationBoardDto(IReadOnlyList<CremationCardDto> Waiting, IReadOnlyList<CremationCardDto> InOven, IReadOnlyList<CremationCardDto> Packed, IReadOnlyList<CremationCardDto> Delivered);
+public record AdvanceCremationRequest(long OperatorId, string? ReceivedBy);
+public record AssignStaffRequest(Guid ServiceId, long EmployeeId, DateTimeOffset From, DateTimeOffset To);
+public record AssignStaffResult(Guid Id, string? OverlapWith);
+public record EmployeeDto(long Id, string Name, string Role, string Shift, long BranchId);
+public record StaffAssignmentDto(Guid Id, string ServiceCode, long EmployeeId, string EmployeeName, DateTimeOffset From, DateTimeOffset To);
+public record StaffBoardDto(IReadOnlyList<EmployeeDto> Employees, IReadOnlyList<StaffAssignmentDto> Assignments);
