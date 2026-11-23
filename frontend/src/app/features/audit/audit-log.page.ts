@@ -19,7 +19,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state.compone
 import { CrDatePipe } from '../../shared/pipes/cr-date.pipe';
 
 const ACT: Record<string, string> = { Create: 'Creó', Update: 'Modificó', Delete: 'Eliminó' };
-const ENT: Record<string, string> = { Service: 'Servicio', ServiceLine: 'Componente', Invoice: 'Factura', DeathCertificate: 'Acta', Setting: 'Parámetro', Component: 'Catálogo: componente', Package: 'Catálogo: paquete', CasketModel: 'Catálogo: cofre' };
+const ENT: Record<string, string | undefined> = { Service: 'Servicio', ServiceLine: 'Componente', Invoice: 'Factura', DeathCertificate: 'Acta', Setting: 'Parámetro', Component: 'Catálogo: componente', Package: 'Catálogo: paquete', CasketModel: 'Catálogo: cofre' };
 
 @Component({
   selector: 'app-audit-log-page',
@@ -32,7 +32,7 @@ const ENT: Record<string, string> = { Service: 'Servicio', ServiceLine: 'Compone
       <input [(ngModel)]="actor" (ngModelChange)="load(1)" placeholder="Actor (rol o sede)" aria-label="Actor" /></div>
     @if (!data()?.items?.length) { <app-empty-state icon="history" text="No hay registros con estos filtros." /> } @else {
       <table class="dense"><thead><tr><th>Cuándo</th><th>Quién</th><th>Acción</th><th>Detalle</th></tr></thead>
-        <tbody>@for (e of data()!.items; track e.id) { <tr><td>{{ e.at | crDate }}</td><td>{{ e.actorName }}</td><td>{{ act[e.action] }} {{ ent[e.entity] ?? e.entity }}</td><td class="detail">{{ summary(e) }}</td></tr> }</tbody></table>
+        <tbody>@for (e of data()!.items; track e.id) { <tr><td>{{ e.at | crDate }}</td><td>{{ e.actorName }}</td><td>{{ act[e.action] }} {{ entity_(e.entity) }}</td><td class="detail">{{ summary(e) }}</td></tr> }</tbody></table>
       <div class="pager"><span class="muted">Página {{ data()!.page }} · {{ data()!.total }} registros</span>
         <button class="btn ghost" type="button" [disabled]="data()!.page <= 1" (click)="load(data()!.page - 1)" aria-label="Anterior"><span class="ms">chevron_left</span></button>
         <button class="btn ghost" type="button" [disabled]="data()!.page * data()!.pageSize >= data()!.total" (click)="load(data()!.page + 1)" aria-label="Siguiente"><span class="ms">chevron_right</span></button></div> }`,
@@ -40,11 +40,12 @@ const ENT: Record<string, string> = { Service: 'Servicio', ServiceLine: 'Compone
 })
 export class AuditLogPage {
   private api = inject(OversightApi);
-  readonly act = ACT; readonly ent = ENT; readonly entities = Object.entries(ENT);
+  readonly act = ACT; readonly ent = ENT; readonly entities = Object.entries(ENT) as [string, string][];
   readonly data = signal<PagedResult<AuditEntry> | null>(null);
   entity = ''; actor = '';
   constructor() { this.load(1); }
   load(page: number): void { this.api.audit({ entity: this.entity || undefined, actor: this.actor || undefined, page }).subscribe(d => this.data.set(d)); }
+  entity_(n: string): string { return ENT[n] ?? n; }
   summary(e: AuditEntry): string {
     try {
       const o = JSON.parse(e.oldValues) as Record<string, unknown>; const n = JSON.parse(e.newValues) as Record<string, unknown>;

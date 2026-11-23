@@ -83,7 +83,7 @@ public sealed class AuditInterceptor : SaveChangesInterceptor
             foreach (var p in e.Properties)
             {
                 var name = p.Metadata.Name;
-                if (Ignored.Contains(name)) continue;
+                if (Ignored.Contains(name) || p.IsTemporary) continue;
                 switch (e.State)
                 {
                     case EntityState.Added: newV[name] = p.CurrentValue; break;
