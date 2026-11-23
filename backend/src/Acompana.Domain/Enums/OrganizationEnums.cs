@@ -9,5 +9,15 @@
  * Devuelve:   Valores que viajan en los DTO como texto; la interfaz los traduce al español.
  * Se conecta: ← entidades, DTO, configuraciones EF · → GET /api/meta/enums
  * Reglas:     RF-30
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Domain.Enums;
+
+public enum Zone { GAM, Fuera }
+
+public enum EmployeeRole { Advisor, BranchManager, Driver, CrematoriumOperator, Management }
+
+public enum Shift { Day, Night }
+
+public enum DemoRole { Advisor, BranchManager, CrematoriumOperator, Provider, Management, Driver }

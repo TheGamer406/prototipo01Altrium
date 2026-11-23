@@ -10,5 +10,19 @@
  * Devuelve:   Valores que viajan en los DTO como texto; la interfaz los traduce al español.
  * Se conecta: ← entidades, DTO, configuraciones EF · → GET /api/meta/enums
  * Reglas:     RF-01 · RF-02 · RF-07 · RF-11 · RF-19
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Domain.Enums;
+
+public enum ServiceKind { Immediate, Advance }
+
+public enum ServiceStatus { Advance, Registered, Invoicing, Paid, InProgress, Completed, Cancelled }
+
+public enum WakePlace { Chapel, Church, Home }
+
+public enum FinalDestination { Cemetery, Cremation }
+
+public enum Payer { Family, Insurer }
+
+public enum LineStatus { Pending, Offered, Accepted, Delivered }

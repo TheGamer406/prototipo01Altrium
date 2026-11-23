@@ -9,5 +9,15 @@
  * Devuelve:   Valores que viajan en los DTO como texto; la interfaz los traduce al español.
  * Se conecta: ← entidades, DTO, configuraciones EF · → GET /api/meta/enums
  * Reglas:     RF-31 · RF-35
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Domain.Enums;
+
+public enum AuditAction { Create, Update, Delete }
+
+public enum AlertType { ProviderTimeout, LowStock, TransferDelay, StaffOverlap, InvoiceRejected }
+
+public enum MessageChannel { Email }
+
+public enum MessageKind { FamilyStatus, FamilyInvoice, InsurerNotice, ProviderOffer, Alert }

@@ -7,5 +7,9 @@
  * Devuelve:   Valores que viajan en los DTO como texto; la interfaz los traduce al español.
  * Se conecta: ← entidades, DTO, configuraciones EF · → GET /api/meta/enums
  * Reglas:     RF-15 · RF-16 · RF-17
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Domain.Enums;
+
+public enum OfferStatus { Open, Won, Lost, Expired }

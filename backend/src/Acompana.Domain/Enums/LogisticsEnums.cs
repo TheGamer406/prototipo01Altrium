@@ -10,5 +10,17 @@
  * Devuelve:   Valores que viajan en los DTO como texto; la interfaz los traduce al español.
  * Se conecta: ← entidades, DTO, configuraciones EF · → GET /api/meta/enums
  * Reglas:     RF-21 · RF-22 · RF-23
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Domain.Enums;
+
+public enum MilestoneType { Departure, Pickup, ArrivalWake, DepartureWake, ArrivalDestination }
+
+public enum MilestoneSource { Online, Offline }
+
+public enum TransferStatus { Planned, OnRoute, Done }
+
+public enum HearseStatus { Available, InUse, Maintenance }
+
+public enum CremationStatus { Waiting, InOven, Packed, Delivered }

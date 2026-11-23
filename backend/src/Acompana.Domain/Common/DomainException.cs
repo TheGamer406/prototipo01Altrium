@@ -7,5 +7,17 @@
  * Devuelve:   La atrapa ErrorHandlingMiddleware y la convierte en ProblemDetails 422.
  * Se conecta: ← entidades y handlers · → Api/Middleware/ErrorHandlingMiddleware
  * Reglas:     Errores en español que la interfaz muestra tal cual
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Domain.Common;
+
+public class DomainException : Exception
+{
+    public string Code { get; }
+
+    public DomainException(string message, string code = "domain-error") : base(message)
+    {
+        Code = code;
+    }
+}

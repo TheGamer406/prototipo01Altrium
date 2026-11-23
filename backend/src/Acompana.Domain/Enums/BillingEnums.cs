@@ -8,5 +8,11 @@
  * Devuelve:   Valores que viajan en los DTO como texto; la interfaz los traduce al español.
  * Se conecta: ← entidades, DTO, configuraciones EF · → GET /api/meta/enums
  * Reglas:     RF-08 · RF-09
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Domain.Enums;
+
+public enum InvoiceStatus { Draft, Sent, Accepted, Rejected }
+
+public enum PaymentMethod { Card, Transfer, Cash, Insurer }
