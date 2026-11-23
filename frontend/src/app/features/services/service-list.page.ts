@@ -53,7 +53,7 @@ const STATUSES = [['', 'Todos'], ['Registered', 'Registrado'], ['Invoicing', 'En
         <button class="btn ghost" type="button" [disabled]="data()!.page <= 1" (click)="set({ page: data()!.page - 1 })" aria-label="Anterior"><span class="ms">chevron_left</span></button>
         <button class="btn ghost" type="button" [disabled]="data()!.page * data()!.pageSize >= data()!.total" (click)="set({ page: data()!.page + 1 })" aria-label="Siguiente"><span class="ms">chevron_right</span></button></div>
     }`,
-  styles: [`.filters { display: flex; gap: 8px; margin-bottom: 12px; } .filters input { width: 320px; } .urgent { color: var(--warning); font-size: 12px; margin-left: 6px; } .pager { display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding-top: 8px; }`],
+  styles: [`.filters { display: flex; gap: 8px; margin-bottom: 12px; } .filters input { width: 320px; max-width: 100%; } .filters { flex-wrap: wrap; } .urgent { color: var(--warning); font-size: 12px; margin-left: 6px; } .pager { display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding-top: 8px; }`],
 })
 export class ServiceListPage {
   private api = inject(ServicesApi);

@@ -115,7 +115,7 @@ import { AdminMenuComponent } from './admin-menu.component';
     .alert { padding: 8px 14px; border-bottom: 1px solid var(--border); max-width: 380px; } .alert .msg { font-size: 13px; } .alert .meta { font-size: 11px; margin: 2px 0 4px; }
     .none { padding: 12px 16px; } .menu { display: none; padding: 0 6px; }
     @media (max-width: 1024px) { .crumb { display: none; } .search input { width: 200px; } .sel .muted { display: none; } .bar { gap: 8px; padding: 0 10px; } }
-    @media (max-width: 768px) { .menu { display: inline-flex; } .search, .toggle span { display: none; } .sel select { max-width: 110px; } .results { width: 90vw; } }`],
+    @media (max-width: 768px) { .bar { overflow-x: auto; } .bar > * { flex-shrink: 0; } .spacer { flex: 0 0 4px; } .menu { display: inline-flex; } .search, .toggle span { display: none; } .sel select { max-width: 110px; } .results { width: 90vw; } }`],
 })
 export class TopbarComponent {
   private router = inject(Router);

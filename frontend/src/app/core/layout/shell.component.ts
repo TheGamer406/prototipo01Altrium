@@ -36,16 +36,16 @@ import { FooterComponent } from './footer.component';
   styles: [`
     :host { display: flex; flex-direction: column; height: 100vh; }
     .admin-band { height: 24px; background: #5b4a1f; color: #f1dfb0; font-size: 12px; display: grid; place-items: center; }
-    .shell { display: grid; flex: 1; min-height: 0; grid-template-columns: var(--sidebar-w) 1fr; grid-template-rows: var(--topbar-h) 1fr; transition: grid-template-columns var(--transition); }
-    .shell.collapsed { grid-template-columns: var(--sidebar-w-collapsed) 1fr; }
+    .shell { display: grid; flex: 1; min-height: 0; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); grid-template-rows: var(--topbar-h) 1fr; transition: grid-template-columns var(--transition); }
+    .shell.collapsed { grid-template-columns: var(--sidebar-w-collapsed) minmax(0, 1fr); }
     .side { grid-row: 2; grid-column: 1; background: var(--surface); border-right: 1px solid var(--border); overflow: hidden; }
     .top { grid-row: 1; grid-column: 1 / 3; background: var(--surface); border-bottom: 1px solid var(--border); }
-    .main { grid-row: 2; grid-column: 2; display: flex; flex-direction: column; min-height: 0; }
+    .main { min-width: 0; grid-row: 2; grid-column: 2; display: flex; flex-direction: column; min-height: 0; }
     .content { flex: 1; overflow: auto; padding: 24px; }
     .scrim { display: none; }
     @media (max-width: 1024px) { .content { padding: 16px; } }
     @media (max-width: 768px) {
-      .shell, .shell.collapsed { grid-template-columns: 1fr; }
+      .shell, .shell.collapsed { grid-template-columns: minmax(0, 1fr); }
       .top, .main { grid-column: 1; }
       .side { position: fixed; top: calc(var(--topbar-h) + 24px * 0); bottom: 0; left: 0; width: var(--sidebar-w); z-index: 30; transform: translateX(-100%); transition: transform var(--transition); }
       .shell.mobile-open .side { transform: none; }

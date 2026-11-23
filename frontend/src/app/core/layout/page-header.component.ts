@@ -23,7 +23,7 @@ import { RfTagComponent } from '../../shared/components/rf-tag.component';
       </div>
       <div class="actions"><ng-content /></div>
     </header>`,
-  styles: [`.ph { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+  styles: [`.ph { flex-wrap: wrap; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
     .row { display: flex; align-items: center; gap: 10px; } p { margin: 4px 0 0; } .actions { display: flex; gap: 8px; align-items: center; }`],
 })
 export class PageHeaderComponent {
