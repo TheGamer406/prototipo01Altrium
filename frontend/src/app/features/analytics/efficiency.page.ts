@@ -29,7 +29,7 @@ const LABEL: Record<string, string> = { Registered: 'Registro', Invoicing: 'Fact
 })
 export class EfficiencyPage {
   readonly d = signal<StageTimes | null>(null);
-  readonly chart = signal<object>({});
+  readonly chart = signal<any>({});
   constructor() {
     inject(AnalyticsApi).stageTimes().subscribe(r => {
       this.d.set(r);

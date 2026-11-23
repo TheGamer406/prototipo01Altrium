@@ -23,7 +23,7 @@ import { SkeletonComponent } from '../../shared/components/skeleton.component';
 })
 export class ZonesPage {
   readonly ready = signal(false);
-  readonly chart = signal<object>({});
+  readonly chart = signal<any>({});
   constructor() {
     inject(AnalyticsApi).zones().subscribe(r => {
       const months = [...new Set(r.cells.map(c => c.month))].sort();

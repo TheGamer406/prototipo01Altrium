@@ -33,7 +33,7 @@ const M = (n: number) => `₡${Math.round(n / 1e6)} M`;
 })
 export class SalesPage {
   readonly d = signal<SalesResponse | null>(null);
-  readonly month = signal<object>({}); readonly pack = signal<object>({}); readonly branch = signal<object>({});
+  readonly month = signal<any>({}); readonly pack = signal<any>({}); readonly branch = signal<any>({});
   constructor() {
     inject(AnalyticsApi).sales().subscribe(r => {
       this.d.set(r);
