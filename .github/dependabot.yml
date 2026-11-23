@@ -1,0 +1,24 @@
+# Archivo:    .github/dependabot.yml
+# Qué hace:   Revisa dependencias desactualizadas cada semana.
+# Recibe:     Manifiestos de NuGet (backend), npm (frontend) y Dockerfiles.
+# Procesa:    Abre PR de actualización.
+# Devuelve:   PR semanales.
+# Se conecta: → backend/, frontend/, graph/
+# Estado:     Completo
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /backend
+    schedule: { interval: weekly }
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule: { interval: weekly }
+  - package-ecosystem: docker
+    directory: /backend
+    schedule: { interval: weekly }
+  - package-ecosystem: docker
+    directory: /frontend
+    schedule: { interval: weekly }
+  - package-ecosystem: docker
+    directory: /graph
+    schedule: { interval: weekly }
