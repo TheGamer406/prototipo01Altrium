@@ -5,5 +5,9 @@
  * Procesa:    —
  * Devuelve:   JSON { items: T[], page, pageSize, total }
  * Se conecta: ← queries de listas · → tablas paginadas del frontend
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+namespace Acompana.Application.Common;
+
+public record PagedResult<T>(IReadOnlyList<T> Items, int Page, int PageSize, int Total);

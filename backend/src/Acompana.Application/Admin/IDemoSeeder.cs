@@ -5,7 +5,7 @@
  * Procesa:    Interfaz; implementada en Infrastructure/Seed/DemoSeeder.
  * Devuelve:   —
  * Se conecta: ← ResetDemoHandler, DatabaseInitializer
- * Estado:     Pendiente
+ * Estado:     Completo
  *
  * Contrato:
  *   Task<SeedSummary> SeedAsync(int seed, CancellationToken ct)
@@ -13,3 +13,12 @@
  *     Procesa:    ver DemoSeeder
  *     Devuelve:   conteos sembrados
  */
+
+namespace Acompana.Application.Admin;
+
+public record SeedSummary(int Branches, int Employees, int Services, int Providers, int Components, int Packages);
+
+public interface IDemoSeeder
+{
+    Task<SeedSummary> SeedAsync(int seed, CancellationToken ct);
+}

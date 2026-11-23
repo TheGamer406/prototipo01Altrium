@@ -7,7 +7,7 @@
  * Devuelve:   IQueryable<T> filtrado.
  * Se conecta: ← todas las queries de listas
  * Reglas:     RF-30
- * Estado:     Pendiente
+ * Estado:     Completo
  *
  * Contrato:
  *   static IQueryable<T> ForUser<T>(this IQueryable<T> q, ICurrentUser user, long? branch) where T :
@@ -16,3 +16,18 @@
  *     Procesa:    ver arriba
  *     Devuelve:   query filtrada
  */
+
+using Acompana.Domain.Common;
+
+namespace Acompana.Application.Common;
+
+public static class BranchScope
+{
+    public static IQueryable<T> ForUser<T>(this IQueryable<T> q, ICurrentUser user, long? branch) where T : IHasBranch
+    {
+        if (user.SeesAllBranches)
+            return branch is null ? q : q.Where(x => x.BranchId == branch.Value);
+        var own = user.BranchId ?? -1;
+        return q.Where(x => x.BranchId == own);
+    }
+}

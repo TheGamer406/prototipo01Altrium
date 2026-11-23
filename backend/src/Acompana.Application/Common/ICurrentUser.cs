@@ -7,5 +7,18 @@
  * Devuelve:   —
  * Se conecta: ← todos los handlers (filtro por sede) · → AuditInterceptor (actor)
  * Reglas:     RF-30
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Enums;
+
+namespace Acompana.Application.Common;
+
+public interface ICurrentUser
+{
+    DemoRole Role { get; }
+    long? BranchId { get; }
+    string DisplayName { get; }
+    bool SeesAllBranches { get; }
+    long? ProviderId { get; }
+}
