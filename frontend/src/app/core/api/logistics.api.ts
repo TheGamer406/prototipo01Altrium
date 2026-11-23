@@ -8,13 +8,13 @@
  *               transfers(b), sendMilestones(id, batch), cremations(), advanceCremation(id, req).
  * Se conecta: ← features · → backend · ↔ core/models/logistics.models.ts
  * Reglas:     RF-20 a RF-25
- * Estado:     Parcial: capillas, personal y cremación; traslados en la fase 6
+ * Estado:     Completo
  */
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AssignStaffRequest, AssignStaffResult, BookChapelRequest, ChapelCalendar, CremationBoard, CremationCard, StaffBoard } from '../models/logistics.models';
+import { AssignStaffRequest, AssignStaffResult, BookChapelRequest, ChapelCalendar, CremationBoard, CremationCard, MilestoneBatch, MilestoneResult, StaffBoard, Transfer } from '../models/logistics.models';
 import { toParams } from '../http/params';
 
 @Injectable({ providedIn: 'root' })
@@ -26,4 +26,6 @@ export class LogisticsApi {
   assignStaff(req: AssignStaffRequest): Observable<AssignStaffResult> { return this.http.post<AssignStaffResult>('/api/staff-assignments', req); }
   cremations(): Observable<CremationBoard> { return this.http.get<CremationBoard>('/api/cremations'); }
   advanceCremation(id: number, req: { operatorId: number; receivedBy?: string }): Observable<CremationCard> { return this.http.post<CremationCard>(`/api/cremations/${id}/advance`, req); }
+  transfers(branch: number | null, includeDone = false): Observable<Transfer[]> { return this.http.get<Transfer[]>('/api/transfers', { params: toParams({ branch, includeDone }) }); }
+  sendMilestones(id: number, batch: MilestoneBatch): Observable<MilestoneResult> { return this.http.post<MilestoneResult>(`/api/transfers/${id}/milestones`, batch); }
 }

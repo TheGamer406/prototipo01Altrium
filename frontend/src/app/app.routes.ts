@@ -8,7 +8,7 @@
  * Devuelve:   Routes.
  * Se conecta: ← app.config.ts · → features/<módulo>/<módulo>.routes.ts
  * Reglas:     RF-30
- * Estado:     Parcial: pantallas provisionales; los módulos reales se enlazan en las fases 4 a 6
+ * Estado:     Completo
  */
 
 import { inject } from '@angular/core';
@@ -33,9 +33,11 @@ export const routes: Routes = [
   { path: 'bandeja', canActivate: [roleGuard], data: { roles: ['Provider'] }, loadComponent: () => import('./features/provider-inbox/provider-inbox.page').then(m => m.ProviderInboxPage) },
   { path: 'capillas', canActivate: [roleGuard], data: { roles: ['Advisor', 'BranchManager', 'Management'] }, loadComponent: () => import('./features/chapels/chapel-calendar.page').then(m => m.ChapelCalendarPage) },
   { path: 'personal', canActivate: [roleGuard], data: { roles: ['BranchManager', 'Management'] }, loadComponent: () => import('./features/staff/staff-assignments.page').then(m => m.StaffAssignmentsPage) },
-  page('traslados', 'Traslados', 'Mapa y hitos de los traslados.', ['RF-22', 'RF-23', 'RF-24'], ['BranchManager', 'Management']),
+  { path: 'traslados', canActivate: [roleGuard], data: { roles: ['BranchManager', 'Management'] }, children: [
+    { path: '', loadComponent: () => import('./features/transfers/transfers-map.page').then(m => m.TransfersMapPage) },
+    { path: ':id', loadComponent: () => import('./features/transfers/transfer-milestones.page').then(m => m.TransferMilestonesPage) } ] },
   { path: 'cremacion', canActivate: [roleGuard], data: { roles: ['CrematoriumOperator', 'Management'] }, loadComponent: () => import('./features/cremation/cremation-board.page').then(m => m.CremationBoardPage) },
-  page('chofer', 'App del chofer', 'Hitos del traslado, incluso sin señal.', ['RF-22', 'RNF-05'], ['Driver']),
+  { path: 'chofer', canActivate: [roleGuard], data: { roles: ['Driver'] }, loadComponent: () => import('./features/driver-app/driver-app.page').then(m => m.DriverAppPage) },
   { path: 'inventario', canActivate: [roleGuard], data: { roles: ['BranchManager', 'Management'] }, loadChildren: () => import('./features/inventory/inventory.routes').then(m => m.inventoryRoutes) },
   { path: 'central', canActivate: [roleGuard], data: { roles: ['Management'] }, loadChildren: () => import('./features/central/central.routes').then(m => m.centralRoutes) },
   { path: 'analitica', canActivate: [roleGuard], data: { roles: ['Management'] }, loadChildren: () => import('./features/analytics/analytics.routes').then(m => m.analyticsRoutes) },
