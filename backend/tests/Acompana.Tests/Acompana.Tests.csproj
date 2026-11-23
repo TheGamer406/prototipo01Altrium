@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Acompana.Application\Acompana.Application.csproj" />
+    <ProjectReference Include="..\..\src\Acompana.Infrastructure\Acompana.Infrastructure.csproj" />
+  </ItemGroup>
+  <!-- Paquetes (fase 2): xunit, xunit.runner.visualstudio, Microsoft.NET.Test.Sdk, Testcontainers.PostgreSql -->
+</Project>
