@@ -8,7 +8,7 @@
  * Devuelve:   JSON camelCase; errores como ProblemDetails con mensaje en español.
  * Se conecta: → Application/Logistics/*
  * Reglas:     RF-20 a RF-25
- * Estado:     Parcial: capillas, personal y cremación listos; traslados en la fase 6
+ * Estado:     Completo
  *
  * Contrato:
  *   GET /api/chapels/calendar?branch=&from=&to=  (RF-20)
@@ -65,4 +65,10 @@ public class LogisticsController : ControllerBase
 
     [HttpPost("cremations/{id:long}/advance")]
     public Task<CremationCardDto> Advance([FromServices] AdvanceCremationHandler h, long id, AdvanceCremationRequest req, CancellationToken ct) => h.HandleAsync(id, req, ct);
+
+    [HttpGet("transfers")]
+    public Task<IReadOnlyList<TransferDto>> Transfers([FromServices] TransfersQuery q, long? branch, bool includeDone = false, CancellationToken ct = default) => q.HandleAsync(branch, includeDone, ct);
+
+    [HttpPost("transfers/{id:long}/milestones")]
+    public Task<MilestoneResult> Milestones([FromServices] RecordMilestonesHandler h, long id, MilestoneBatch batch, CancellationToken ct) => h.HandleAsync(id, batch, ct);
 }

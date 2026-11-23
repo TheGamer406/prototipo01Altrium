@@ -39,7 +39,8 @@ public static class DependencyInjection
             .AddScoped<GetOpenOpportunitiesQuery>().AddScoped<OfferTimeoutChecker>().AddScoped<ProvidersHandler>();
         // Inventario y logística
         s.AddScoped<DeductCasketHandler>().AddScoped<StockQuery>().AddScoped<RestockRequestsHandler>()
-            .AddScoped<BookChapelHandler>().AddScoped<ChapelCalendarQuery>().AddScoped<AssignStaffHandler>().AddScoped<AdvanceCremationHandler>().AddScoped<CremationQueueQuery>();
+            .AddScoped<BookChapelHandler>().AddScoped<ChapelCalendarQuery>().AddScoped<AssignStaffHandler>().AddScoped<AdvanceCremationHandler>().AddScoped<CremationQueueQuery>()
+            .AddScoped<TransfersQuery>().AddScoped<RecordMilestonesHandler>().AddScoped<TransferDelayChecker>();
         // Supervisión y analítica
         s.AddScoped<AlertService>().AddScoped<AlertsHandler>().AddScoped<MessagesQuery>().AddScoped<AuditQuery>()
             .AddScoped<OverviewQuery>().AddScoped<SettingsHandler>();

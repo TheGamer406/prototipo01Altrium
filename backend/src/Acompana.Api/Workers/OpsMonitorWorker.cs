@@ -6,10 +6,11 @@
  * Devuelve:   Nada; las alertas salen por IOpsNotifier.
  * Se conecta: → Application/Providers/OfferTimeoutChecker, Application/Logistics/TransferDelayChecker
  * Reglas:     RF-17 · RF-24
- * Estado:     Parcial: falta TransferDelayChecker (fase 6)
+ * Estado:     Completo
  */
 
 using Acompana.Application.Admin;
+using Acompana.Application.Logistics;
 using Acompana.Application.Providers;
 
 namespace Acompana.Api.Workers;
@@ -30,6 +31,7 @@ public sealed class OpsMonitorWorker : BackgroundService
             {
                 using var scope = _scopes.CreateScope();
                 await scope.ServiceProvider.GetRequiredService<OfferTimeoutChecker>().HandleAsync(stoppingToken);
+                await scope.ServiceProvider.GetRequiredService<TransferDelayChecker>().HandleAsync(stoppingToken);
                 await scope.ServiceProvider.GetRequiredService<RefreshAnalyticsHandler>().RefreshSnapshotAsync(stoppingToken);
             }
             catch (Exception ex) when (ex is not OperationCanceledException) { _log.LogWarning(ex, "Ciclo del monitor con error"); }

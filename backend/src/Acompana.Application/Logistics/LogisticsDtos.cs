@@ -34,3 +34,10 @@ public record AssignStaffResult(Guid Id, string? OverlapWith);
 public record EmployeeDto(long Id, string Name, string Role, string Shift, long BranchId);
 public record StaffAssignmentDto(Guid Id, string ServiceCode, long EmployeeId, string EmployeeName, DateTimeOffset From, DateTimeOffset To);
 public record StaffBoardDto(IReadOnlyList<EmployeeDto> Employees, IReadOnlyList<StaffAssignmentDto> Assignments);
+
+public record MilestoneDto(Guid ClientUuid, string Type, DateTimeOffset RecordedAt, DateTimeOffset SyncedAt, double? Lat, double? Lng, string Source);
+public record TransferDto(long Id, string ServiceCode, string Plate, string DriverName, string Status, double? LastLat, double? LastLng,
+    IReadOnlyList<MilestoneDto> Milestones, bool Delayed);
+public record MilestoneInput(Guid ClientUuid, string Type, DateTimeOffset RecordedAt, double? Lat, double? Lng, string Source);
+public record MilestoneBatch(List<MilestoneInput> Items);
+public record MilestoneResult(int Accepted, int Duplicates);
