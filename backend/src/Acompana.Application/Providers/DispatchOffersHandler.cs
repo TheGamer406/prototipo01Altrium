@@ -64,7 +64,7 @@ public sealed class DispatchOffersHandler
                 _db.OutboundMessages.Add(new OutboundMessage
                 {
                     ToAddress = p.Email, Kind = MessageKind.ProviderOffer, ServiceId = s.Id,
-                    Subject = $"Nueva oferta: {line.Component.Name}",
+                    Subject = $"Nueva oferta: {line.Component!.Name}",
                     Body = $"Lugar: {place}. Fecha: {s.ScheduledAt.ToOffset(TimeSpan.FromHours(-6)):dd/MM/yyyy HH:mm}. Precio fijo: ₡{line.UnitPriceCrc:N0}. Acepte con un clic en su bandeja.",
                 });
                 count++;
