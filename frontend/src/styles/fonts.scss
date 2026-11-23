@@ -1,0 +1,9 @@
+/*
+ * Archivo:    frontend/src/styles/fonts.scss
+ * Qué hace:   Carga Inter y Material Symbols Outlined self-hosted (sin CDN).
+ * Recibe:     Archivos .woff2 en public/fonts/.
+ * Procesa:    @font-face de Inter (400, 500, 600) y Material Symbols (peso 300).
+ * Devuelve:   Familias 'Inter' y 'Material Symbols Outlined' disponibles.
+ * Se conecta: ← styles.scss
+ * Estado:     Pendiente (fase 3)
+ */

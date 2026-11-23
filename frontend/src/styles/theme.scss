@@ -1,0 +1,10 @@
+/*
+ * Archivo:    frontend/src/styles/theme.scss
+ * Qué hace:   Tema propio de Angular Material sobre los tokens.
+ * Recibe:     Variables de tokens.scss.
+ * Procesa:    mat.theme oscuro con primario = --accent; sobrescribe superficies, bordes de 1 px, radio 6 px,
+ *             sin sombras salvo menús y diálogos; tablas densas de 40 px.
+ * Devuelve:   Estilos globales de los componentes Material.
+ * Se conecta: ← styles.scss
+ * Estado:     Pendiente (fase 3, al instalar @angular/material)
+ */

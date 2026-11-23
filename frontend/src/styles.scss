@@ -1,0 +1,22 @@
+/*
+ * Archivo:    frontend/src/styles.scss
+ * Qué hace:   Estilos globales de la aplicación.
+ * Recibe:     tokens.scss, fonts.scss, theme.scss.
+ * Procesa:    Reset mínimo, tipografía base 14 px, números tabulares, scrollbars sobrios.
+ * Devuelve:   Estilos globales.
+ * Se conecta: ← angular.json (styles)
+ * Estado:     Parcial: tokens y base; tema en fase 3
+ */
+@use 'styles/tokens';
+@use 'styles/fonts';
+@use 'styles/theme';
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  font-variant-numeric: tabular-nums;
+}

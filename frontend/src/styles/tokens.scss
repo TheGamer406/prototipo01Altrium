@@ -1,0 +1,47 @@
+/*
+ * Archivo:    frontend/src/styles/tokens.scss
+ * Qué hace:   Tokens de diseño como CSS custom properties (modo oscuro sobrio, acento #176B87).
+ * Recibe:     —
+ * Procesa:    Define colores, radios, espaciado y tipografía en :root.
+ * Devuelve:   Variables --bg, --surface, --accent, etc. que usan todos los componentes y el tema Material.
+ * Se conecta: ← styles.scss · → theme.scss, shared/charts/chart-theme.ts
+ * Reglas:     Contraste de texto AA (4,5:1). Estados con punto + texto, nunca solo color.
+ * Estado:     Completo
+ */
+:root {
+  --bg: #161c21;
+  --surface: #1d252c;
+  --surface-2: #243039;
+  --border: #30404a;
+  --text: #d7dee3;
+  --text-muted: #8a99a5;
+  --accent: #176b87;
+  --accent-hover: #1d7e9e;
+  --accent-text: #5fafc8;
+  --accent-soft: rgba(23, 107, 135, 0.16);
+  --success: #6f9a80;
+  --warning: #be9f5e;
+  --danger: #b36b6b;
+  --info: #7090a8;
+
+  --chart-1: #176b87;
+  --chart-2: #4f8a8b;
+  --chart-3: #7a8fa6;
+  --chart-4: #9c8e74;
+  --chart-5: #6f9a80;
+  --chart-6: #8c7a99;
+
+  --radius: 6px;
+  --space: 4px;
+  --sidebar-w: 248px;
+  --sidebar-w-collapsed: 64px;
+  --topbar-h: 56px;
+  --row-h: 40px;
+  --transition: 150ms ease;
+
+  --font: 'Inter', system-ui, sans-serif;
+  --fs-base: 14px;
+  --fs-table: 13px;
+  --fs-h1: 20px;
+  --fs-h2: 16px;
+}
