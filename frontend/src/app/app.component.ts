@@ -5,17 +5,16 @@
  * Procesa:    —
  * Devuelve:   <app-shell/>
  * Se conecta: ← main.ts · → core/layout/shell.component.ts
- * Estado:     Parcial: generado por Angular CLI; shell en fase 3
+ * Estado:     Completo
  */
 
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ShellComponent } from './core/layout/shell.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  template: '<router-outlet />',
+  standalone: true,
+  imports: [ShellComponent],
+  template: '<app-shell />',
 })
-export class AppComponent {
-  title = 'frontend';
-}
+export class AppComponent {}
