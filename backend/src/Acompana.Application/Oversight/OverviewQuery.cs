@@ -36,8 +36,8 @@ public sealed class OverviewQuery
 
     public async Task<OverviewDto> HandleAsync(CancellationToken ct)
     {
-        var rows = await _db.SqlQueryRaw<Row>(@"SELECT branch_id AS ""BranchId"", code AS ""Code"", name AS ""Name"", zone AS ""Zone"", lat AS ""Lat"", lng AS ""Lng"",
-            ongoing AS ""Ongoing"", chapels_busy AS ""ChapelsBusy"", chapels_total AS ""ChapelsTotal"", low_stock AS ""LowStock"" FROM analytics.mv_branch_snapshot ORDER BY name").ToListAsync(ct);
+        var rows = await _db.SqlQueryRaw<Row>(@"SELECT branch_id AS ""branch_id"", code AS ""code"", name AS ""name"", zone AS ""zone"", lat AS ""lat"", lng AS ""lng"",
+            ongoing AS ""ongoing"", chapels_busy AS ""chapels_busy"", chapels_total AS ""chapels_total"", low_stock AS ""low_stock"" FROM analytics.mv_branch_snapshot ORDER BY name").ToListAsync(ct);
         if (!_user.SeesAllBranches) rows = rows.Where(r => r.BranchId == _user.BranchId).ToList();
         var open = await _db.Alerts.AsNoTracking().Where(a => a.AcknowledgedAt == null).ForUser(_user, null).CountAsync(ct);
         var branches = rows.Select(r => new BranchOverviewDto(r.BranchId, r.Code, r.Name, r.Zone, r.Lat, r.Lng, r.Ongoing, r.ChapelsBusy, r.ChapelsTotal, r.LowStock)).ToList();

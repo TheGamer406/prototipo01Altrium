@@ -36,14 +36,14 @@ public sealed class SalesQuery
         var b = branchId ?? 0L;
 
         const string where = @"WHERE month >= {0} AND month <= {1} AND ({2} = 0 OR branch_id = {2})";
-        var byPackage = await _db.SqlQueryRaw<Pkg>($@"SELECT package_name AS ""Name"", sum(total_crc) AS ""Total"", sum(services_count)::int AS ""Count""
-            FROM analytics.mv_sales_by_package_branch_month {where} GROUP BY 1 ORDER BY 2 DESC", f, t, b).ToListAsync(ct);
-        var byMonth = await _db.SqlQueryRaw<Mon>($@"SELECT to_char(month, 'YYYY-MM') AS ""Month"", sum(total_crc) AS ""Total""
-            FROM analytics.mv_sales_by_package_branch_month {where} GROUP BY 1 ORDER BY 1", f, t, b).ToListAsync(ct);
-        var byBranch = await _db.SqlQueryRaw<Br>($@"SELECT branch_name AS ""Name"", sum(total_crc) AS ""Total"", sum(services_count)::int AS ""Count""
-            FROM analytics.mv_sales_by_package_branch_month {where} GROUP BY 1 ORDER BY 2 DESC", f, t, b).ToListAsync(ct);
-        var stages = await _db.SqlQueryRaw<Stage>($@"SELECT from_status AS ""From"", to_status AS ""To"", (sum(avg_hours * samples) / NULLIF(sum(samples), 0))::numeric(10,2) AS ""Hours""
-            FROM analytics.mv_stage_times {where} GROUP BY 1, 2", f, t, b).ToListAsync(ct);
+        var byPackage = await _db.SqlQueryRaw<Pkg>($@"SELECT package_name AS ""name"", sum(total_crc) AS ""total"", sum(services_count)::int AS ""count""
+            FROM analytics.mv_sales_by_package_branch_month {where} GROUP BY 1 ORDER BY 2 DESC", from, to, b).ToListAsync(ct);
+        var byMonth = await _db.SqlQueryRaw<Mon>($@"SELECT to_char(month, 'YYYY-MM') AS ""month"", sum(total_crc) AS ""total""
+            FROM analytics.mv_sales_by_package_branch_month {where} GROUP BY 1 ORDER BY 1", from, to, b).ToListAsync(ct);
+        var byBranch = await _db.SqlQueryRaw<Br>($@"SELECT branch_name AS ""name"", sum(total_crc) AS ""total"", sum(services_count)::int AS ""count""
+            FROM analytics.mv_sales_by_package_branch_month {where} GROUP BY 1 ORDER BY 2 DESC", from, to, b).ToListAsync(ct);
+        var stages = await _db.SqlQueryRaw<Stage>($@"SELECT from_status AS ""from"", to_status AS ""to"", (sum(avg_hours * samples) / NULLIF(sum(samples), 0))::numeric(10,2) AS ""hours""
+            FROM analytics.mv_stage_times {where} GROUP BY 1, 2", from, to, b).ToListAsync(ct);
 
         var monthStart = new DateTimeOffset(new DateTime(_clock.Today.Year, _clock.Today.Month, 1), TimeSpan.FromHours(-6)).ToUniversalTime();
         var servicesQ = _db.Services.AsNoTracking().ForUser(_user, branch);

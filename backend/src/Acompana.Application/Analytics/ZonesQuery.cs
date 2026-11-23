@@ -27,8 +27,8 @@ public sealed class ZonesQuery
     {
         var from = year is null ? new DateOnly(_clock.Today.Year, _clock.Today.Month, 1).AddMonths(-11) : new DateOnly(year.Value, 1, 1);
         var to = year is null ? _clock.Today : new DateOnly(year.Value, 12, 31);
-        var rows = await _db.SqlQueryRaw<Cell>(@"SELECT zone AS ""Zone"", to_char(month, 'YYYY-MM') AS ""Month"", services_count AS ""Count""
-            FROM analytics.mv_services_by_zone_month WHERE month >= {0} AND month <= {1} ORDER BY month, zone", from.ToDateTime(TimeOnly.MinValue), to.ToDateTime(TimeOnly.MinValue)).ToListAsync(ct);
+        var rows = await _db.SqlQueryRaw<Cell>(@"SELECT zone AS ""zone"", to_char(month, 'YYYY-MM') AS ""month"", services_count AS ""count""
+            FROM analytics.mv_services_by_zone_month WHERE month >= {0} AND month <= {1} ORDER BY month, zone", from, to).ToListAsync(ct);
         return new ZonesDto(rows.Select(r => new ZoneCellDto(r.Zone, r.Month, r.Count)).ToList());
     }
 }

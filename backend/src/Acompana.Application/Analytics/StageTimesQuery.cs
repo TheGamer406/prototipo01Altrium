@@ -26,17 +26,17 @@ public sealed class StageTimesQuery
 
     public async Task<StageTimesDto> HandleAsync(DateOnly? start, DateOnly? end, CancellationToken ct)
     {
-        var from = (start ?? new DateOnly(_clock.Today.Year, _clock.Today.Month, 1).AddMonths(-11)).ToDateTime(TimeOnly.MinValue);
-        var to = (end ?? _clock.Today).ToDateTime(TimeOnly.MinValue);
+        var from = start ?? new DateOnly(_clock.Today.Year, _clock.Today.Month, 1).AddMonths(-11);
+        var to = end ?? _clock.Today;
         long b = _user.SeesAllBranches ? 0 : _user.BranchId ?? -1;
 
-        var stages = await _db.SqlQueryRaw<Stage>(@"SELECT from_status AS ""From"", to_status AS ""To"", (sum(avg_hours * samples) / NULLIF(sum(samples), 0))::numeric(10,2) AS ""Hours""
+        var stages = await _db.SqlQueryRaw<Stage>(@"SELECT from_status AS ""from"", to_status AS ""to"", (sum(avg_hours * samples) / NULLIF(sum(samples), 0))::numeric(10,2) AS ""hours""
             FROM analytics.mv_stage_times WHERE month >= {0} AND month <= {1} AND ({2} = 0 OR branch_id = {2}) GROUP BY 1, 2", from, to, b).ToListAsync(ct);
-        var perBranch = await _db.SqlQueryRaw<BranchStage>(@"SELECT branch_name AS ""Branch"", from_status AS ""From"", to_status AS ""To"", (sum(avg_hours * samples) / NULLIF(sum(samples), 0))::numeric(10,2) AS ""Hours""
+        var perBranch = await _db.SqlQueryRaw<BranchStage>(@"SELECT branch_name AS ""branch"", from_status AS ""from"", to_status AS ""to"", (sum(avg_hours * samples) / NULLIF(sum(samples), 0))::numeric(10,2) AS ""hours""
             FROM analytics.mv_stage_times WHERE month >= {0} AND month <= {1} AND ({2} = 0 OR branch_id = {2}) GROUP BY 1, 2, 3", from, to, b).ToListAsync(ct);
 
         var order = new[] { "Registered", "Invoicing", "Paid", "InProgress" };
-        var slowest = perBranch.GroupBy(x => x.Branch).Select(g => g.OrderByDescending(x => x.Hours).First())
+        var slowest = perBranch.Where(x => x.From is "Registered" or "Invoicing").GroupBy(x => x.Branch).Select(g => g.OrderByDescending(x => x.Hours).First())
             .OrderByDescending(x => x.Hours).Take(10)
             .Select(x => new SlowestStageDto(x.Branch, $"{x.From} → {x.To}", x.Hours)).ToList();
         return new StageTimesDto(stages.OrderBy(s => Array.IndexOf(order, s.From)).Select(s => new StageDto(s.From, s.To, s.Hours)).ToList(), slowest);
