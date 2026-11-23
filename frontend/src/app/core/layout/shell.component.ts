@@ -33,9 +33,9 @@ import { FooterComponent } from './footer.component';
       </main>
     </div>`,
   styles: [`
-    :host { display: block; height: 100vh; }
+    :host { display: flex; flex-direction: column; height: 100vh; }
     .admin-band { height: 24px; background: #5b4a1f; color: #f1dfb0; font-size: 12px; display: grid; place-items: center; }
-    .shell { display: grid; height: 100%; grid-template-columns: var(--sidebar-w) 1fr; grid-template-rows: var(--topbar-h) 1fr; transition: grid-template-columns var(--transition); }
+    .shell { display: grid; flex: 1; min-height: 0; grid-template-columns: var(--sidebar-w) 1fr; grid-template-rows: var(--topbar-h) 1fr; transition: grid-template-columns var(--transition); }
     .shell.collapsed { grid-template-columns: var(--sidebar-w-collapsed) 1fr; }
     .side { grid-row: 2; grid-column: 1; background: var(--surface); border-right: 1px solid var(--border); overflow: hidden; }
     .top { grid-row: 1; grid-column: 1 / 3; background: var(--surface); border-bottom: 1px solid var(--border); }

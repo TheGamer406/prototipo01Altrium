@@ -37,7 +37,7 @@ export class OpsHubService {
   private connect(role: string, branch: number | null): void {
     void this.connection?.stop();
     const qs = `?role=${role}` + (branch !== null ? `&branch=${branch}` : '');
-    const c = new signalR.HubConnectionBuilder().withUrl(`/hubs/ops${qs}`).withAutomaticReconnect([0, 1000, 3000, 10000]).build();
+    const c = new signalR.HubConnectionBuilder().withUrl(`/hubs/ops${qs}`).configureLogging(signalR.LogLevel.None).withAutomaticReconnect([0, 1000, 3000, 10000]).build();
     c.on('ServiceUpdated', p => this.serviceUpdated$.next(p));
     c.on('OfferAwarded', p => this.offerAwarded$.next(p));
     c.on('AlertRaised', p => this.alertRaised$.next(p));
