@@ -59,4 +59,5 @@ public interface IAppDbContext
     Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct = default);
     Task<int> ExecuteSqlAsync(FormattableString sql, CancellationToken ct = default);
     Task<int> ExecuteSqlRawAsync(string sql, CancellationToken ct = default);
+    IQueryable<T> SqlQueryRaw<T>(string sql, params object[] args);
 }

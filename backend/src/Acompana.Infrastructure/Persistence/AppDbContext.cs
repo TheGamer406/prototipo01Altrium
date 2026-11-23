@@ -124,6 +124,9 @@ public class AppDbContext : DbContext, IAppDbContext
 
     public Task<int> ExecuteSqlRawAsync(string sql, CancellationToken ct = default) =>
         Database.ExecuteSqlRawAsync(sql, ct);
+
+    public IQueryable<T> SqlQueryRaw<T>(string sql, params object[] args) =>
+        Database.SqlQueryRaw<T>(sql, args);
 }
 
 public class UtcOffsetConverter : ValueConverter<DateTimeOffset, DateTimeOffset>
