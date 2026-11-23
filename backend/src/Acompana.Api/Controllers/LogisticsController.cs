@@ -8,7 +8,7 @@
  * Devuelve:   JSON camelCase; errores como ProblemDetails con mensaje en español.
  * Se conecta: → Application/Logistics/*
  * Reglas:     RF-20 a RF-25
- * Estado:     Pendiente
+ * Estado:     Parcial: capillas listas; personal, traslados y cremación en las fases 5 y 6
  *
  * Contrato:
  *   GET /api/chapels/calendar?branch=&from=&to=  (RF-20)
@@ -33,3 +33,23 @@
  *     Recibe:     { operatorId, receivedBy? }
  *     Devuelve:   200 CremationCardDto
  */
+
+using Acompana.Application.Logistics;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Acompana.Api.Controllers;
+
+[ApiController]
+[Route("api")]
+public class LogisticsController : ControllerBase
+{
+    [HttpGet("chapels/calendar")]
+    public Task<ChapelCalendarDto> Calendar([FromServices] ChapelCalendarQuery q, long? branch, DateTimeOffset from, DateTimeOffset to, CancellationToken ct) => q.HandleAsync(branch, from, to, ct);
+
+    [HttpPost("chapel-bookings")]
+    public async Task<IActionResult> Book([FromServices] BookChapelHandler h, BookChapelRequest req, CancellationToken ct)
+    {
+        var id = await h.HandleAsync(req, ct);
+        return Created($"/api/chapel-bookings/{id}", new { id });
+    }
+}

@@ -8,7 +8,7 @@
  * Devuelve:   JSON camelCase; errores como ProblemDetails con mensaje en español.
  * Se conecta: → Application/Providers/GetProviderInboxQuery, AcceptOfferHandler
  * Reglas:     RF-15 · RF-16 · RNF-16
- * Estado:     Pendiente
+ * Estado:     Completo
  *
  * Contrato:
  *   GET /api/offers?providerId=  (RF-15)
@@ -18,3 +18,26 @@
  *     Recibe:     id de la oferta (proveedor desde ICurrentUser)
  *     Devuelve:   200 AcceptOfferResult { won, message }
  */
+
+using Acompana.Application.Common;
+using Acompana.Application.Providers;
+using Acompana.Domain.Enums;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Acompana.Api.Controllers;
+
+[ApiController]
+[Route("api")]
+public class OffersController : ControllerBase
+{
+    [HttpGet("offers")]
+    public Task<ProviderInboxDto> Inbox([FromServices] GetProviderInboxQuery q, long? providerId, CancellationToken ct) => q.HandleAsync(providerId, ct);
+
+    [HttpPost("offers/{id:guid}/accept")]
+    public Task<AcceptOfferResult> Accept([FromServices] AcceptOfferHandler h, [FromServices] ICurrentUser user, Guid id, long? providerId, CancellationToken ct)
+    {
+        var pid = user.Role == DemoRole.Provider ? user.ProviderId ?? providerId : providerId;
+        if (pid is null) throw new ValidationException("providerId", "Seleccione el proveedor.");
+        return h.HandleAsync(id, pid.Value, ct);
+    }
+}

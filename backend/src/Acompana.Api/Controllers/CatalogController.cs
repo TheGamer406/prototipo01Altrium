@@ -8,7 +8,7 @@
  * Devuelve:   JSON camelCase; errores como ProblemDetails con mensaje en español.
  * Se conecta: → Application/Catalog/*
  * Reglas:     RF-04 · RF-06
- * Estado:     Pendiente
+ * Estado:     Parcial: solo GET (POST y PUT en la fase 5)
  *
  * Contrato:
  *   GET /api/components?category=&active=
@@ -30,3 +30,22 @@
  *     Recibe:     CasketModelDto
  *     Devuelve:   200/201 CasketModelDto
  */
+
+using Acompana.Application.Catalog;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Acompana.Api.Controllers;
+
+[ApiController]
+[Route("api")]
+public class CatalogController : ControllerBase
+{
+    [HttpGet("components")]
+    public Task<IReadOnlyList<ComponentDto>> Components([FromServices] ComponentsHandler h, string? category, bool? active, CancellationToken ct) => h.ListAsync(category, active, ct);
+
+    [HttpGet("packages")]
+    public Task<IReadOnlyList<PackageDto>> Packages([FromServices] PackagesHandler h, bool? active, CancellationToken ct) => h.ListAsync(active, ct);
+
+    [HttpGet("casket-models")]
+    public Task<IReadOnlyList<CasketModelDto>> CasketModels([FromServices] CasketModelsHandler h, long? branch, CancellationToken ct) => h.ListAsync(branch, ct);
+}
