@@ -32,7 +32,10 @@ public sealed class AdvanceCremationHandler
         if (_user.Role is not (DemoRole.CrematoriumOperator or DemoRole.Management)) throw new ForbiddenException("Solo el operador del crematorio mueve las tarjetas.");
         var c = await _db.Cremations.FirstOrDefaultAsync(x => x.Id == id, ct) ?? throw new NotFoundException("La cremación no existe.");
         var s = await _db.Services.Include(x => x.Deceased).Include(x => x.FamilyContact).FirstAsync(x => x.Id == c.ServiceId, ct);
-        c.Advance(req.OperatorId, _clock.Now, req.ReceivedBy);
+        // el operador debe ser un empleado del crematorio; si no se indica uno válido, se toma el primero del turno
+        var opId = await _db.Employees.Where(e => e.Id == req.OperatorId && e.Role == EmployeeRole.CrematoriumOperator).Select(e => e.Id).FirstOrDefaultAsync(ct);
+        if (opId == 0) opId = await _db.Employees.Where(e => e.Role == EmployeeRole.CrematoriumOperator).OrderBy(e => e.Id).Select(e => e.Id).FirstAsync(ct);
+        c.Advance(opId, _clock.Now, req.ReceivedBy);
         await _db.SaveChangesAsync(ct);
         if (c.Status == CremationStatus.Delivered) await _family.AshesDeliveredAsync(s, c.ReceivedBy ?? "", ct);
         await _notifier.CremationMoved(c.Id, c.Status.ToString());

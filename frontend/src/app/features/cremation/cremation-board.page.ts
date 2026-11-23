@@ -47,7 +47,7 @@ export class CremationBoardPage {
   readonly cols = COLS;
   readonly board = signal<CremationBoard | null>(null);
   receiver: Record<number, string> = {};
-  private operatorId = 0;
+  private operatorId = 0; // 0 = el servidor asigna al operador del turno
   constructor() {
     this.load();
     inject(OpsHubService).cremationMoved$.subscribe(() => this.load());
@@ -56,6 +56,6 @@ export class CremationBoardPage {
   private load(): void { this.api.cremations().subscribe(b => this.board.set(b)); }
   advance(c: CremationCard): void {
     if (c.status === 'Packed' && !this.receiver[c.id]?.trim()) { this.snack.open('Indique quién recibe las cenizas.', 'Cerrar', { duration: 4000, panelClass: 'error' }); return; }
-    this.api.advanceCremation(c.id, { operatorId: this.operatorId || 1, receivedBy: this.receiver[c.id] }).subscribe(() => this.load());
+    this.api.advanceCremation(c.id, { operatorId: this.operatorId, receivedBy: this.receiver[c.id] }).subscribe(() => this.load());
   }
 }
