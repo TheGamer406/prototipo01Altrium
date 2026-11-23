@@ -21,6 +21,11 @@ export class BranchContextService {
   readonly branchName = computed(() => this.branches().find(b => b.id === this.branchId())?.name ?? 'Todas');
 
   constructor() {
+    // se difiere para no crear un ciclo con el interceptor (que también inyecta este servicio)
+    queueMicrotask(() => this.load());
+  }
+
+  private load(): void {
     this.meta.branches().subscribe(list => {
       this.branches.set(list);
       if (this.branchId() === null && localStorage.getItem('acompana.branch') !== 'all') {
