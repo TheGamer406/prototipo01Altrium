@@ -1,0 +1,7 @@
+-- Archivo:    db/schema.sql
+-- Qué hace:   Script SQL idempotente del modelo completo (operativo + analytics).
+-- Recibe:     Se genera con: dotnet ef migrations script --idempotent -o db/schema.sql
+-- Procesa:    —
+-- Devuelve:   DDL de todas las tablas, la restricción de exclusión de capillas y las vistas materializadas.
+-- Se conecta: ← Infrastructure/Persistence (migraciones) · → grafo del proyecto (rama BD)
+-- Estado:     Pendiente: se genera al cerrar la fase 1

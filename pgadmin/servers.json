@@ -1,0 +1,13 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Acompaña",
+      "Group": "Prototipo",
+      "Host": "db",
+      "Port": 5432,
+      "MaintenanceDB": "acompana",
+      "Username": "acompana",
+      "SSLMode": "prefer"
+    }
+  }
+}
