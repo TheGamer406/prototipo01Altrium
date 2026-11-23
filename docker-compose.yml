@@ -1,0 +1,124 @@
+# Archivo:    docker-compose.yml
+# Qué hace:   Levanta el prototipo completo en un servidor con Docker.
+# Recibe:     Variables de .env (copiar desde .env.example).
+# Procesa:    6 servicios en la red interna acompana-net; solo web (5471), graph (5472) y pgadmin (5473)
+#             publican puertos. graph y pgadmin van en el perfil "extras".
+# Devuelve:   docker compose up -d --build                    → web, api, mock, db
+#             docker compose --profile extras up -d --build   → además grafo y pgAdmin
+# Se conecta: → backend/Dockerfile, frontend/Dockerfile, graph/Dockerfile, pgadmin/servers.json
+# Estado:     Completo
+name: acompana
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: acompana-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: ${TZ}
+    volumes:
+      - acompana-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [acompana-net]
+
+  integrations-mock:
+    build:
+      context: ./backend
+      args:
+        PROJECT: Acompana.Integrations.Mock
+    container_name: acompana-mock
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_HTTP_PORTS: "8081"
+      TZ: ${TZ}
+    networks: [acompana-net]
+
+  api:
+    build:
+      context: ./backend
+      args:
+        PROJECT: Acompana.Api
+    container_name: acompana-api
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ConnectionStrings__Default: Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      MockBaseUrl: http://integrations-mock:8081
+      TZ: ${TZ}
+      DEMO_SEED: ${DEMO_SEED}
+      PROVIDER_ACCEPT_TIMEOUT_MIN: ${PROVIDER_ACCEPT_TIMEOUT_MIN}
+      TRANSFER_THRESHOLD_MIN: ${TRANSFER_THRESHOLD_MIN}
+    volumes:
+      - acompana-uploads:/data/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+      integrations-mock:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks: [acompana-net]
+
+  web:
+    build: ./frontend
+    container_name: acompana-web
+    restart: unless-stopped
+    environment:
+      DEMO_USER: ${DEMO_USER}
+      DEMO_PASSWORD: ${DEMO_PASSWORD}
+      TZ: ${TZ}
+    ports:
+      - "5471:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks: [acompana-net]
+
+  graph:
+    build: ./graph
+    container_name: acompana-graph
+    restart: unless-stopped
+    profiles: [extras]
+    environment:
+      DEMO_USER: ${DEMO_USER}
+      DEMO_PASSWORD: ${DEMO_PASSWORD}
+    ports:
+      - "5472:80"
+    networks: [acompana-net]
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: acompana-pgadmin
+    restart: unless-stopped
+    profiles: [extras]
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "True"
+    volumes:
+      - acompana-pgadmin:/var/lib/pgadmin
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+    ports:
+      - "5473:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [acompana-net]
+
+volumes:
+  acompana-pgdata:
+  acompana-pgadmin:
+  acompana-uploads:
+
+networks:
+  acompana-net:
