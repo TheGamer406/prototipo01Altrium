@@ -90,6 +90,8 @@ public class AppDbContext : DbContext, IAppDbContext
                     p.SetValueConverter(conv);
                     p.SetMaxLength(40);
                 }
+                if (p.Name == "Id" && p.ClrType == typeof(Guid))
+                    p.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.Never; // Guid se asigna en la app: evita que EF crea 'Modified' a filas nuevas
                 if (p.Name == "Version" && p.ClrType == typeof(uint))
                 {
                     p.SetColumnName("xmin");
