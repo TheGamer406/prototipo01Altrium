@@ -8,7 +8,7 @@
  * Devuelve:   JSON camelCase; errores como ProblemDetails con mensaje en español.
  * Se conecta: → Application/Catalog/*
  * Reglas:     RF-04 · RF-06
- * Estado:     Parcial: solo GET (POST y PUT en la fase 5)
+ * Estado:     Completo
  *
  * Contrato:
  *   GET /api/components?category=&active=
@@ -32,6 +32,7 @@
  */
 
 using Acompana.Application.Catalog;
+using Acompana.Application.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acompana.Api.Controllers;
@@ -48,4 +49,17 @@ public class CatalogController : ControllerBase
 
     [HttpGet("casket-models")]
     public Task<IReadOnlyList<CasketModelDto>> CasketModels([FromServices] CasketModelsHandler h, long? branch, CancellationToken ct) => h.ListAsync(branch, ct);
+
+    [HttpPost("components")]
+    public async Task<IActionResult> CreateComponent([FromServices] ComponentsHandler h, [FromServices] ICurrentUser u, ComponentDto dto, CancellationToken ct) => Created("/api/components", await h.SaveAsync(null, dto, u, ct));
+    [HttpPut("components/{id:long}")]
+    public Task<ComponentDto> UpdateComponent([FromServices] ComponentsHandler h, [FromServices] ICurrentUser u, long id, ComponentDto dto, CancellationToken ct) => h.SaveAsync(id, dto, u, ct);
+    [HttpPost("packages")]
+    public async Task<IActionResult> CreatePackage([FromServices] PackagesHandler h, [FromServices] ICurrentUser u, PackageDto dto, CancellationToken ct) => Created("/api/packages", await h.SaveAsync(null, dto, u, ct));
+    [HttpPut("packages/{id:long}")]
+    public Task<PackageDto> UpdatePackage([FromServices] PackagesHandler h, [FromServices] ICurrentUser u, long id, PackageDto dto, CancellationToken ct) => h.SaveAsync(id, dto, u, ct);
+    [HttpPost("casket-models")]
+    public async Task<IActionResult> CreateCasket([FromServices] CasketModelsHandler h, CasketModelDto dto, CancellationToken ct) => Created("/api/casket-models", await h.SaveAsync(null, dto, ct));
+    [HttpPut("casket-models/{id:long}")]
+    public Task<CasketModelDto> UpdateCasket([FromServices] CasketModelsHandler h, long id, CasketModelDto dto, CancellationToken ct) => h.SaveAsync(id, dto, ct);
 }

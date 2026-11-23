@@ -7,7 +7,7 @@
  * Devuelve:   Lista de DTO o el DTO guardado.
  * Se conecta: ← CatalogController (GET/POST/PUT) · → AppDbContext
  * Reglas:     RF-04 · RF-26
- * Estado:     Parcial: solo lectura (la edición es de la fase 5)
+ * Estado:     Completo
  *
  * Contrato:
  *   Task<IReadOnlyList<TDto>> ListAsync(TFilter f, CancellationToken ct)
@@ -23,6 +23,10 @@
 
 using Acompana.Application.Common;
 using Microsoft.EntityFrameworkCore;
+
+using Acompana.Domain.Catalog;
+
+using Acompana.Domain.Enums;
 
 namespace Acompana.Application.Catalog;
 
@@ -40,5 +44,18 @@ public sealed class CasketModelsHandler
             : await _db.CasketStock.AsNoTracking().Where(s => s.BranchId == branchId).ToDictionaryAsync(s => s.CasketModelId, s => s.Qty, ct);
         return models.Select(m => new CasketModelDto(m.Id, m.Sku, m.Name, m.Material, m.Origin.ToString(), m.PriceCrc, m.ImagePath,
             branchId is null ? null : stock.GetValueOrDefault(m.Id))).ToList();
+    }
+
+    public async Task<CasketModelDto> SaveAsync(long? id, CasketModelDto dto, CancellationToken ct)
+    {
+        if (_user.Role != DemoRole.Management) throw new ForbiddenException("Solo Gerencia edita el catálogo.");
+        if (string.IsNullOrWhiteSpace(dto.Name) || string.IsNullOrWhiteSpace(dto.Sku)) throw new ValidationException("name", "Indique código y nombre.");
+        if (!Enum.TryParse<CasketOrigin>(dto.Origin, true, out var origin)) throw new ValidationException("origin", "Origen no válido.");
+        if (await _db.CasketModels.AnyAsync(m => m.Sku == dto.Sku && m.Id != (id ?? 0), ct)) throw new ValidationException("sku", "Ya existe un modelo con ese código.");
+        var m = id is null ? new CasketModel() : await _db.CasketModels.FirstOrDefaultAsync(x => x.Id == id, ct) ?? throw new NotFoundException("El modelo no existe.");
+        m.Sku = dto.Sku.Trim(); m.Name = dto.Name.Trim(); m.Material = dto.Material ?? ""; m.Origin = origin; m.PriceCrc = dto.PriceCrc; m.ImagePath = dto.ImagePath ?? "";
+        if (id is null) _db.CasketModels.Add(m);
+        await _db.SaveChangesAsync(ct);
+        return new CasketModelDto(m.Id, m.Sku, m.Name, m.Material, m.Origin.ToString(), m.PriceCrc, m.ImagePath, null);
     }
 }

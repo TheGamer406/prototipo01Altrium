@@ -7,7 +7,7 @@
  * Devuelve:   Lista de DTO o el DTO guardado.
  * Se conecta: ← CatalogController (GET/POST/PUT) · → AppDbContext
  * Reglas:     RF-04 · RF-06
- * Estado:     Parcial: solo lectura (la edición es de la fase 5)
+ * Estado:     Completo
  *
  * Contrato:
  *   Task<IReadOnlyList<TDto>> ListAsync(TFilter f, CancellationToken ct)
@@ -24,6 +24,10 @@
 using Acompana.Application.Common;
 using Microsoft.EntityFrameworkCore;
 
+using Acompana.Domain.Catalog;
+
+using Acompana.Domain.Enums;
+
 namespace Acompana.Application.Catalog;
 
 public sealed class PackagesHandler
@@ -39,5 +43,19 @@ public sealed class PackagesHandler
         return rows.Select(p => new PackageDto(p.Id, p.Name, p.Description, p.PriceCrc,
             p.Items.Select(i => new PackageItemDto(i.ComponentId, i.Component!.Name, i.Component.Category.ToString(), i.Qty, i.Component.PriceCrc, i.Component.TaxExemptPct, i.Component.RequiresProvider)).ToList(),
             p.ImagePath, p.Active)).ToList();
+    }
+
+    public async Task<PackageDto> SaveAsync(long? id, PackageDto dto, ICurrentUser user, CancellationToken ct)
+    {
+        if (user.Role != DemoRole.Management) throw new ForbiddenException("Solo Gerencia edita el catálogo.");
+        if (string.IsNullOrWhiteSpace(dto.Name)) throw new ValidationException("name", "Indique el nombre.");
+        if (dto.Items.Count == 0 || dto.Items.Any(i => i.Qty < 1)) throw new ValidationException("items", "El paquete necesita componentes con cantidad de 1 o más.");
+        var p = id is null ? new Package() : await _db.Packages.Include(x => x.Items).FirstOrDefaultAsync(x => x.Id == id, ct) ?? throw new NotFoundException("El paquete no existe.");
+        p.Name = dto.Name.Trim(); p.Description = dto.Description ?? ""; p.ImagePath = dto.ImagePath; p.Active = dto.Active;
+        _db.PackageItems.RemoveRange(p.Items); p.Items.Clear();
+        foreach (var i in dto.Items) p.Items.Add(new PackageItem { ComponentId = i.ComponentId, Qty = i.Qty });
+        if (id is null) _db.Packages.Add(p);
+        await _db.SaveChangesAsync(ct);
+        return (await ListAsync(null, ct)).First(x => x.Id == p.Id);
     }
 }
