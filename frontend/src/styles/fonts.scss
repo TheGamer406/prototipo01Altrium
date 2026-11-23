@@ -1,9 +1,37 @@
 /*
  * Archivo:    frontend/src/styles/fonts.scss
  * Qué hace:   Carga Inter y Material Symbols Outlined self-hosted (sin CDN).
- * Recibe:     Archivos .woff2 en public/fonts/.
+ * Recibe:     Archivos .woff2 en public/fonts/ (los copia `npm run assets`).
  * Procesa:    @font-face de Inter (400, 500, 600) y Material Symbols (peso 300).
- * Devuelve:   Familias 'Inter' y 'Material Symbols Outlined' disponibles.
+ * Devuelve:   Familias 'Inter' y 'Material Symbols Outlined' disponibles; clase .ms para íconos.
  * Se conecta: ← styles.scss
- * Estado:     Pendiente (fase 3)
+ * Estado:     Completo
  */
+@font-face { font-family: 'Inter'; font-weight: 400; font-style: normal; font-display: swap; src: url('/fonts/inter-400.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 500; font-style: normal; font-display: swap; src: url('/fonts/inter-500.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 600; font-style: normal; font-display: swap; src: url('/fonts/inter-600.woff2') format('woff2'); }
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url('/fonts/material-symbols-outlined.woff2') format('woff2');
+}
+
+.ms {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'liga';
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}

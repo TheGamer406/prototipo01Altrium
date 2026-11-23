@@ -2,15 +2,17 @@
  * Archivo:    frontend/src/styles.scss
  * Qué hace:   Estilos globales de la aplicación.
  * Recibe:     tokens.scss, fonts.scss, theme.scss.
- * Procesa:    Reset mínimo, tipografía base 14 px, números tabulares, scrollbars sobrios.
+ * Procesa:    Reset mínimo, tipografía base 14 px, números tabulares, scrollbars sobrios, utilidades de
+ *             tabla (filas de 40 px), botones, campos y tarjetas sin sombra.
  * Devuelve:   Estilos globales.
  * Se conecta: ← angular.json (styles)
- * Estado:     Parcial: tokens y base; tema en fase 3
+ * Estado:     Completo
  */
 @use 'styles/tokens';
 @use 'styles/fonts';
 @use 'styles/theme';
 
+*, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
   margin: 0;
@@ -19,4 +21,46 @@ body {
   font-family: var(--font);
   font-size: var(--fs-base);
   font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
 }
+h1 { font-size: var(--fs-h1); font-weight: 600; margin: 0; }
+h2 { font-size: var(--fs-h2); font-weight: 600; margin: 0; }
+a { color: var(--accent-text); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 1px; }
+
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+/* Controles */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px;
+  border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); color: var(--text);
+  font: inherit; font-weight: 500; cursor: pointer; transition: background var(--transition), border-color var(--transition);
+}
+.btn:hover:not(:disabled) { background: #2b3944; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.danger { border-color: var(--danger); color: #e0a0a0; }
+.btn.ghost { background: transparent; border-color: transparent; }
+.btn.ghost:hover:not(:disabled) { background: var(--surface-2); }
+
+input, select, textarea {
+  height: 32px; padding: 0 10px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--bg); color: var(--text); font: inherit; transition: border-color var(--transition);
+}
+textarea { height: auto; padding: 8px 10px; }
+input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: none; }
+select { padding-right: 6px; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.muted { color: var(--text-muted); }
+.num { font-variant-numeric: tabular-nums; text-align: right; }
+
+/* Tablas densas (filas de 40 px) */
+table.dense { width: 100%; border-collapse: collapse; font-size: var(--fs-table); }
+table.dense th { text-align: left; font-weight: 500; color: var(--text-muted); height: var(--row-h); padding: 0 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+table.dense td { height: var(--row-h); padding: 0 12px; border-bottom: 1px solid var(--border); }
+table.dense tbody tr { transition: background var(--transition); }
+table.dense tbody tr:hover { background: var(--surface-2); }
+table.dense tr.clickable { cursor: pointer; }

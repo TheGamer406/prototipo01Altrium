@@ -6,5 +6,43 @@
  *             sin sombras salvo menús y diálogos; tablas densas de 40 px.
  * Devuelve:   Estilos globales de los componentes Material.
  * Se conecta: ← styles.scss
- * Estado:     Pendiente (fase 3, al instalar @angular/material)
+ * Estado:     Completo
  */
+@use '@angular/material' as mat;
+
+html {
+  color-scheme: dark;
+  @include mat.theme((
+    color: (primary: mat.$cyan-palette, theme-type: dark),
+    typography: Inter,
+    density: -2,
+  ));
+}
+
+:root {
+  --mat-sys-primary: var(--accent-text);
+  --mat-sys-on-primary: #0d1519;
+  --mat-sys-primary-container: var(--accent);
+  --mat-sys-on-primary-container: #fff;
+  --mat-sys-surface: var(--surface);
+  --mat-sys-surface-container: var(--surface);
+  --mat-sys-surface-container-high: var(--surface-2);
+  --mat-sys-surface-container-highest: var(--surface-2);
+  --mat-sys-on-surface: var(--text);
+  --mat-sys-on-surface-variant: var(--text-muted);
+  --mat-sys-outline: var(--border);
+  --mat-sys-outline-variant: var(--border);
+  --mat-sys-corner-medium: var(--radius);
+  --mat-sys-corner-extra-large: var(--radius);
+  --mat-sys-body-large-font: var(--font);
+  --mat-sys-body-medium-font: var(--font);
+  --mdc-dialog-container-shape: var(--radius);
+}
+
+/* Sin sombras salvo menús y diálogos */
+.mat-mdc-card, .mat-mdc-table, .mat-mdc-chip { box-shadow: none; }
+.mat-mdc-menu-panel, .mat-mdc-dialog-container { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important; border: 1px solid var(--border); }
+.mat-mdc-snack-bar-container { --mdc-snackbar-container-color: var(--surface-2); --mdc-snackbar-supporting-text-color: var(--text); }
+.mat-mdc-snack-bar-container.error { --mdc-snackbar-container-color: #4a2b2b; }
+.mat-mdc-snack-bar-container.success { --mdc-snackbar-container-color: #263d33; }
+.mat-mdc-tooltip { --mdc-plain-tooltip-container-color: var(--surface-2); font-size: 12px; }
