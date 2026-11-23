@@ -8,5 +8,12 @@
     <ProjectReference Include="..\Acompana.Application\Acompana.Application.csproj" />
     <ProjectReference Include="..\Acompana.Infrastructure\Acompana.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.*">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
+  </ItemGroup>
   <!-- Paquetes (fase 2): Swashbuckle.AspNetCore, Microsoft.EntityFrameworkCore.Design 8.x -->
 </Project>
