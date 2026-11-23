@@ -8,5 +8,22 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← RecordMilestonesHandler · → TransferDelayChecker
  * Reglas:     RF-22 · RF-24 · RNF-05
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Domain.Logistics;
+
+public class TransferMilestone : Entity
+{
+    public long TransferId { get; set; }
+    public MilestoneType Type { get; set; }
+    public DateTimeOffset RecordedAt { get; set; }
+    public DateTimeOffset SyncedAt { get; set; }
+    public double? Lat { get; set; }
+    public double? Lng { get; set; }
+    public MilestoneSource Source { get; set; }
+    public Guid ClientUuid { get; set; }
+}

@@ -7,5 +7,20 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← DispatchOffersHandler (filtra por tipo y zona) · → ProviderOffer
  * Reglas:     RF-14
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Domain.Providers;
+
+public class Provider : Entity
+{
+    public string Name { get; set; } = "";
+    public ProviderType Type { get; set; }
+    public Zone Zone { get; set; }
+    public string Email { get; set; } = "";
+    public string Phone { get; set; } = "";
+    public bool Active { get; set; } = true;
+}

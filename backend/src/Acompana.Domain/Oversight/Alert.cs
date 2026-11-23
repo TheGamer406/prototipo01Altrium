@@ -7,5 +7,21 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← jobs y handlers que detectan el problema · → campana de alertas, hub (AlertRaised)
  * Reglas:     RF-17 · RF-24 · RF-25 · RF-27
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Domain.Oversight;
+
+public class Alert : Entity, IHasBranch
+{
+    public AlertType Type { get; set; }
+    public long BranchId { get; set; }
+    public Guid? ServiceId { get; set; }
+    public string Message { get; set; } = "";
+    public DateTimeOffset? AcknowledgedAt { get; set; }
+
+    public void Acknowledge(DateTimeOffset now) => AcknowledgedAt ??= now;
+}

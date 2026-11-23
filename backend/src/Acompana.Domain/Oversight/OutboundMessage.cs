@@ -7,5 +7,20 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← MailClient / Notificadores · → MessagesQuery, pestaña Mensajes
  * Reglas:     RF-12 · RF-15 · RF-35
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Domain.Oversight;
+
+public class OutboundMessage : Entity
+{
+    public MessageChannel Channel { get; set; } = MessageChannel.Email;
+    public string ToAddress { get; set; } = "";
+    public MessageKind Kind { get; set; }
+    public string Subject { get; set; } = "";
+    public string Body { get; set; } = "";
+    public Guid? ServiceId { get; set; }
+}

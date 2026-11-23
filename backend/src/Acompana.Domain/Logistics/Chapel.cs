@@ -6,5 +6,16 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← ChapelBooking
  * Reglas:     RF-20
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+
+namespace Acompana.Domain.Logistics;
+
+public class Chapel : Entity, IHasBranch
+{
+    public long BranchId { get; set; }
+    public string Name { get; set; } = "";
+    public int Capacity { get; set; }
+}
