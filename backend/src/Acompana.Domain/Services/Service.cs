@@ -88,12 +88,12 @@ public class Service : GuidEntity, IHasBranch
         }
         else
         {
+            if (to == ServiceStatus.InProgress && Status != ServiceStatus.Paid)
+                throw new DomainException("El servicio no puede iniciar sin factura pagada.", "payment-required");
             if (!Allowed.Contains((Status, to)))
                 throw new DomainException("Transición no permitida.", "invalid-transition");
             if (to == ServiceStatus.Invoicing && Kind == ServiceKind.Immediate && DeathCertificate is null)
                 throw new DomainException("Registre el acta de defunción antes de facturar.", "death-certificate-required");
-            if (to == ServiceStatus.InProgress && Status != ServiceStatus.Paid)
-                throw new DomainException("El servicio no puede iniciar sin factura pagada.", "payment-required");
         }
 
         History.Add(new StatusHistory { ServiceId = Id, FromStatus = Status, ToStatus = to, ChangedBy = actor, ChangedAt = now });
