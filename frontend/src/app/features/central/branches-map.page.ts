@@ -33,7 +33,8 @@ import { SkeletonComponent } from '../../shared/components/skeleton.component';
         <tbody>@for (b of data()?.branches ?? []; track b.id) { <tr [class.hot]="b.lowStock > 0"><td>{{ b.name }}</td><td class="num">{{ b.ongoing }}</td><td class="num">{{ b.chapelsBusy }}/{{ b.chapelsTotal }}</td><td class="num">{{ b.lowStock }}</td></tr> }</tbody></table></div>
     </div>`,
   styles: [`.kpis { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; } .layout { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; } .map { height: 520px; padding: 0; background: var(--surface); }
-    .list { max-height: 520px; overflow: auto; padding: 0 8px; } .hot td:last-child { color: var(--warning); }`],
+    .list { max-height: 520px; overflow: auto; padding: 0 8px; } .hot td:last-child { color: var(--warning); }
+    @media (max-width: 1024px) { .layout { grid-template-columns: 1fr; } } @media (max-width: 1024px) { .map { height: 360px; } }`],
 })
 export class BranchesMapPage implements AfterViewInit, OnDestroy {
   private api = inject(OversightApi);

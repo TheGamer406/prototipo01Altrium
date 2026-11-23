@@ -64,3 +64,9 @@ table.dense td { height: var(--row-h); padding: 0 12px; border-bottom: 1px solid
 table.dense tbody tr { transition: background var(--transition); }
 table.dense tbody tr:hover { background: var(--surface-2); }
 table.dense tr.clickable { cursor: pointer; }
+
+/* Adaptable: tablas anchas desplazan dentro de su contenedor en pantallas angostas */
+@media (max-width: 1024px) {
+  table.dense { display: block; overflow-x: auto; white-space: nowrap; }
+  .btn { height: 36px; }
+}

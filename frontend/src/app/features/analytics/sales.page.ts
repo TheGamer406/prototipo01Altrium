@@ -29,7 +29,8 @@ const M = (n: number) => `₡${Math.round(n / 1e6)} M`;
       <section class="card"><h2>Ventas por paquete</h2><div echarts [options]="pack()" theme="acompana" class="chart"></div></section>
       <section class="card wide"><h2>Ventas por sede (10 principales)</h2><div echarts [options]="branch()" theme="acompana" class="chart"></div></section>
     </div> }`,
-  styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } .wide { grid-column: 1 / -1; } .chart { height: 280px; }`],
+  styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } .wide { grid-column: 1 / -1; } .chart { height: 280px; }
+    @media (max-width: 1024px) { .grid { grid-template-columns: 1fr; } }`],
 })
 export class SalesPage {
   readonly d = signal<SalesResponse | null>(null);

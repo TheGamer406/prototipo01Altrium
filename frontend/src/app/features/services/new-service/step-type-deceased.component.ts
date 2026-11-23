@@ -33,7 +33,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
     </div>`,
   styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; } .full { grid-column: 1 / -1; } label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-muted); }
     fieldset { border: 1px solid var(--border); border-radius: var(--radius); display: flex; gap: 24px; } fieldset label { flex-direction: row; align-items: center; color: var(--text); font-size: 13px; } input[type=radio] { height: auto; }
-    .err { color: #e0a0a0; min-height: 14px; }`],
+    .err { color: #e0a0a0; min-height: 14px; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }`],
 })
 export class StepTypeDeceasedComponent {
   @Input({ required: true }) form!: FormGroup;

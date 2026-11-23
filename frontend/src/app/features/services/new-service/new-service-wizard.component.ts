@@ -78,7 +78,8 @@ const ID = /^\d-\d{4}-\d{4}$/;
     </div>`,
   styles: [`.steps { display: flex; gap: 4px; list-style: none; padding: 0; margin: 0 0 16px; flex-wrap: wrap; } .steps button { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); border-radius: var(--radius); height: 32px; padding: 0 12px; font: inherit; cursor: pointer; }
     .steps .on button { border-color: var(--accent); color: var(--text); background: var(--accent-soft); } .steps .done button { color: var(--accent-text); } .steps button:disabled { cursor: default; opacity: .6; }
-    .layout { display: grid; grid-template-columns: 1fr 300px; gap: 16px; align-items: start; } .nav { display: flex; margin-top: 20px; } .spacer { flex: 1; }`],
+    .layout { display: grid; grid-template-columns: 1fr 300px; gap: 16px; align-items: start; } .nav { display: flex; margin-top: 20px; } .spacer { flex: 1; }
+    @media (max-width: 1024px) { .layout { grid-template-columns: 1fr; } }`],
 })
 export class NewServiceWizardComponent implements OnInit, OnDestroy, HasUnsavedChanges {
   private fb = inject(FormBuilder);

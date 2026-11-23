@@ -54,7 +54,8 @@ import { ColonesPipe } from '../../../shared/pipes/colones.pipe';
     .thumbs { display: flex; gap: 8px; flex-wrap: wrap; } figure { margin: 0; width: 84px; font-size: 11px; text-align: center; cursor: pointer; color: var(--text-muted); } figure img { width: 84px; height: 64px; object-fit: cover; border-radius: var(--radius); }
     .caskets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; } .ck { display: flex; flex-direction: column; gap: 2px; text-align: left; cursor: pointer; color: inherit; font: inherit; padding: 8px; }
     .ck img { width: 100%; height: 110px; object-fit: contain; background: var(--bg); border-radius: var(--radius); } .ck.sel { border-color: var(--accent); background: var(--accent-soft); }
-    .ck:disabled { opacity: .45; cursor: not-allowed; } .out { color: #e0a0a0; font-size: 12px; }`],
+    .ck:disabled { opacity: .45; cursor: not-allowed; } .out { color: #e0a0a0; font-size: 12px; }
+    @media (max-width: 1024px) { .caskets { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 480px) { .caskets { grid-template-columns: 1fr; } }`],
 })
 export class StepCasketComponent {
   @Input() lines: LineInput[] = [];

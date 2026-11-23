@@ -39,7 +39,8 @@ const COLS = [['waiting', 'En espera', 'Mover a horno'], ['inOven', 'En horno', 
         @if (!list(c[0]).length) { <p class="muted empty">Sin tarjetas</p> }
       </section> }</div>`,
   styles: [`.kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; align-items: start; } section { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; min-height: 240px; }
-    article { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; padding: 10px; } h2 { margin: 0; } .empty { text-align: center; margin-top: 24px; }`],
+    article { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; padding: 10px; } h2 { margin: 0; } .empty { text-align: center; margin-top: 24px; }
+    @media (max-width: 1024px) { .kanban { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 640px) { .kanban { grid-template-columns: 1fr; } }`],
 })
 export class CremationBoardPage {
   private api = inject(LogisticsApi);

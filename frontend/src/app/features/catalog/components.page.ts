@@ -39,7 +39,8 @@ const blank = (): Comp => ({ id: 0, name: '', category: 'Extra', priceCrc: 0, ta
     <table class="dense"><thead><tr><th>Componente</th><th>Categoría</th><th class="num">Precio</th><th>Exoneración</th><th>Proveedor</th><th>Estado</th><th></th></tr></thead>
       <tbody>@for (c of items(); track c.id) { <tr><td>{{ c.name }}</td><td>{{ catName(c.category) }}</td><td class="num">{{ c.priceCrc | colones }}</td><td>{{ c.taxExemptPct }} %</td><td>{{ c.requiresProvider ? c.providerType : '—' }}</td><td>{{ c.active ? 'Activo' : 'Inactivo' }}</td>
         <td><button class="btn ghost" type="button" (click)="editCopy(c)" [attr.aria-label]="'Editar ' + c.name"><span class="ms">edit</span></button></td></tr> }</tbody></table>`,
-  styles: [`.bar { margin-bottom: 12px; } .form { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; } label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-muted); } .chk { flex-direction: row; align-items: center; color: var(--text); } .chk input { height: auto; } .acts { display: flex; gap: 8px; align-items: end; }`],
+  styles: [`.bar { margin-bottom: 12px; } .form { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; } label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-muted); } .chk { flex-direction: row; align-items: center; color: var(--text); } .chk input { height: auto; } .acts { display: flex; gap: 8px; align-items: end; }
+    @media (max-width: 768px) { .form { grid-template-columns: 1fr; } }`],
 })
 export class ComponentsPage {
   private api = inject(CatalogApi);

@@ -23,17 +23,17 @@ import { LayoutService } from '../state/layout.service';
   template: `
     <nav aria-label="Navegación principal">
       @for (section of sections(); track section.title) {
-        @if (!layout.collapsed()) { <div class="title">{{ section.title }}</div> } @else { <div class="sep"></div> }
+        @if (!compact()) { <div class="title">{{ section.title }}</div> } @else { <div class="sep"></div> }
         @for (item of section.items; track item.route) {
-          <a [routerLink]="item.route" routerLinkActive="active" [matTooltip]="layout.collapsed() ? item.label : ''" matTooltipPosition="right">
+          <a (click)="layout.mobileOpen.set(false)" [routerLink]="item.route" routerLinkActive="active" [matTooltip]="compact() ? item.label : ''" matTooltipPosition="right">
             <span class="ms">{{ item.icon }}</span>
-            @if (!layout.collapsed()) { <span class="label">{{ item.label }}</span> }
+            @if (!compact()) { <span class="label">{{ item.label }}</span> }
           </a>
         }
       }
     </nav>
-    <button class="toggle btn ghost" type="button" (click)="layout.toggle()" [attr.aria-label]="layout.collapsed() ? 'Expandir menú' : 'Plegar menú'">
-      <span class="ms">{{ layout.collapsed() ? 'right_panel_open' : 'left_panel_close' }}</span>
+    <button class="toggle btn ghost" type="button" (click)="layout.toggle()" [attr.aria-label]="compact() ? 'Expandir menú' : 'Plegar menú'">
+      <span class="ms">{{ compact() ? 'right_panel_open' : 'left_panel_close' }}</span>
     </button>`,
   styles: [`
     :host { display: flex; flex-direction: column; justify-content: space-between; height: 100%; padding: 8px; }
@@ -51,6 +51,7 @@ import { LayoutService } from '../state/layout.service';
 export class SidebarComponent {
   private role = inject(RoleContextService);
   readonly layout = inject(LayoutService);
+  readonly compact = computed(() => this.layout.collapsed() && !this.layout.isMobile());
   readonly sections = computed(() =>
     NAV.map(s => ({ title: s.title, items: s.items.filter(i => i.roles.includes(this.role.role())) })).filter(s => s.items.length > 0));
 }

@@ -28,7 +28,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
         <span>La familia autoriza que Funeraria Los Cipreses use estos datos para ofrecerle seguros funerarios (Ley 8968 de protección de datos personales). Es opcional.</span></label>
     </div></div>`,
   styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; } .full { grid-column: 1 / -1; } label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-muted); }
-    .check { flex-direction: row; align-items: flex-start; color: var(--text); font-size: 13px; } .check input { height: auto; margin-top: 3px; } .err { color: #e0a0a0; min-height: 14px; }`],
+    .check { flex-direction: row; align-items: flex-start; color: var(--text); font-size: 13px; } .check input { height: auto; margin-top: 3px; } .err { color: #e0a0a0; min-height: 14px; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }`],
 })
 export class StepFamilyComponent {
   @Input({ required: true }) form!: FormGroup;

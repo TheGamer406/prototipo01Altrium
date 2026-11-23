@@ -32,7 +32,8 @@ import { ColonesPipe } from '../../shared/pipes/colones.pipe';
     <div class="grid">@for (m of items(); track m.id) { <article class="card"><img [src]="'/' + m.imagePath" alt="" /><strong>{{ m.name }}</strong><span class="muted">{{ m.sku }} · {{ m.material }} · {{ m.origin }}</span><span>{{ m.priceCrc | colones }}</span>
       <button class="btn ghost" type="button" (click)="editCopy(m)" [attr.aria-label]="'Editar ' + m.name"><span class="ms">edit</span></button></article> }</div>`,
   styles: [`.bar { margin-bottom: 12px; } .form { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; } label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-muted); } .acts { display: flex; gap: 8px; align-items: end; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; } article { display: flex; flex-direction: column; gap: 4px; padding: 10px; } img { height: 90px; object-fit: contain; background: var(--bg); border-radius: var(--radius); }`],
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; } article { display: flex; flex-direction: column; gap: 4px; padding: 10px; } img { height: 90px; object-fit: contain; background: var(--bg); border-radius: var(--radius); }
+    @media (max-width: 768px) { .form { grid-template-columns: 1fr; } }`],
 })
 export class CasketModelsPage {
   private api = inject(CatalogApi);

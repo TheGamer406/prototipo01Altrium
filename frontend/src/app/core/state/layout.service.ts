@@ -11,8 +11,22 @@ import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
+  private tablet = typeof matchMedia !== 'undefined' ? matchMedia('(max-width: 1024px)') : null;
+  private phone = typeof matchMedia !== 'undefined' ? matchMedia('(max-width: 768px)') : null;
   readonly collapsed = signal<boolean>(this.read());
-  private read(): boolean { try { return localStorage.getItem('acompana.sidebar') === '1'; } catch { return false; } }
+  /** En móvil (≤ 768 px) el menú es un panel que se abre con el botón de la barra superior. */
+  readonly isMobile = signal<boolean>(this.phone?.matches ?? false);
+  readonly mobileOpen = signal(false);
+
+  constructor() {
+    this.phone?.addEventListener('change', e => { this.isMobile.set(e.matches); this.mobileOpen.set(false); });
+    this.tablet?.addEventListener('change', e => this.collapsed.set(e.matches || this.stored() === '1'));
+  }
+
+  private stored(): string | null { try { return localStorage.getItem('acompana.sidebar'); } catch { return null; } }
+  // tablet (≤ 1024 px): arranca plegado salvo que la persona lo haya expandido
+  private read(): boolean { const v = this.stored(); return v === null ? (this.tablet?.matches ?? false) : v === '1'; }
+  toggleMobile(): void { this.mobileOpen.update(v => !v); }
   toggle(): void {
     this.collapsed.update(v => !v);
     try { localStorage.setItem('acompana.sidebar', this.collapsed() ? '1' : '0'); } catch { /* sin almacenamiento */ }

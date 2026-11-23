@@ -34,7 +34,8 @@ import { Totals } from './invoice-math';
     <div class="card sum"><h2>Resumen</h2>
       <dl><dt>Subtotal</dt><dd>{{ totals.subtotal | colones }}</dd><dt>Exonerado</dt><dd>{{ totals.exempt | colones }}</dd><dt>IVA 13 %</dt><dd>{{ totals.tax | colones }}</dd><dt class="big">Total</dt><dd class="big">{{ totals.total | colones }}</dd></dl></div>`,
   styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; } .full { grid-column: 1 / -1; } label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-muted); }
-    .sum { margin-top: 16px; } dl { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 8px 0 0; } dd { margin: 0; text-align: right; } .big { font-size: 16px; font-weight: 600; } .err { color: #e0a0a0; }`],
+    .sum { margin-top: 16px; } dl { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin: 8px 0 0; } dd { margin: 0; text-align: right; } .big { font-size: 16px; font-weight: 600; } .err { color: #e0a0a0; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }`],
 })
 export class StepPaymentDocsComponent {
   @Input({ required: true }) form!: FormGroup;

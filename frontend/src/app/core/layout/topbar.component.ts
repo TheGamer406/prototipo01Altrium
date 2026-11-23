@@ -24,6 +24,7 @@ import { Alert } from '../models/oversight.models';
 import { ProviderMeta } from '../models/meta.models';
 import { AdminModeService } from '../state/admin-mode.service';
 import { BranchContextService } from '../state/branch-context.service';
+import { LayoutService } from '../state/layout.service';
 import { OpenTabsService } from '../state/open-tabs.service';
 import { RoleContextService } from '../state/role-context.service';
 import { OpsHubService } from '../realtime/ops-hub.service';
@@ -39,7 +40,8 @@ import { AdminMenuComponent } from './admin-menu.component';
   imports: [FormsModule, MatMenuModule, LogoComponent, StatusChipComponent, CrDatePipe, AdminMenuComponent],
   template: `
     <div class="bar">
-      <app-logo />
+      <button class="btn ghost menu" type="button" (click)="layout.toggleMobile()" aria-label="Abrir menú"><span class="ms">menu</span></button>
+      <app-logo [compact]="layout.isMobile()" />
       <span class="crumb muted">{{ crumb() }}</span>
 
       <div class="search">
@@ -111,7 +113,9 @@ import { AdminMenuComponent } from './admin-menu.component';
       background: var(--danger); color: #fff; font-size: 10px; display: grid; place-items: center; }
     .toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; } .toggle input { height: auto; }
     .alert { padding: 8px 14px; border-bottom: 1px solid var(--border); max-width: 380px; } .alert .msg { font-size: 13px; } .alert .meta { font-size: 11px; margin: 2px 0 4px; }
-    .none { padding: 12px 16px; }`],
+    .none { padding: 12px 16px; } .menu { display: none; padding: 0 6px; }
+    @media (max-width: 1024px) { .crumb { display: none; } .search input { width: 200px; } .sel .muted { display: none; } .bar { gap: 8px; padding: 0 10px; } }
+    @media (max-width: 768px) { .menu { display: inline-flex; } .search, .toggle span { display: none; } .sel select { max-width: 110px; } .results { width: 90vw; } }`],
 })
 export class TopbarComponent {
   private router = inject(Router);
@@ -124,6 +128,7 @@ export class TopbarComponent {
   readonly role = inject(RoleContextService);
   readonly branch = inject(BranchContextService);
   readonly admin = inject(AdminModeService);
+  readonly layout = inject(LayoutService);
 
   readonly query = signal('');
   readonly results = signal<ServiceListItem[]>([]);

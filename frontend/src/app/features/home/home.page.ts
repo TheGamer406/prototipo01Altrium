@@ -40,7 +40,8 @@ import { CrDatePipe } from '../../shared/pipes/cr-date.pipe';
         <ul>@for (a of alerts(); track a.id) { <li><span>{{ a.message }}</span><small class="muted">{{ a.branchName }} · {{ a.createdAt | crDate }}</small></li> }</ul></section>
     </div>`,
   styles: [`.kpis { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; } .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; } ul { list-style: none; padding: 0; margin: 8px 0 0; }
-    li { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }`],
+    li { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    @media (max-width: 1024px) { .grid { grid-template-columns: 1fr; } }`],
 })
 export class HomePage {
   private oversight = inject(OversightApi);

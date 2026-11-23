@@ -43,7 +43,8 @@ import { CrDatePipe } from '../../../shared/pipes/cr-date.pipe';
     </div></div>`,
   styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; } .full { grid-column: 1 / -1; } label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-muted); }
     .chapel { flex-direction: row; align-items: center; gap: 10px; color: var(--text); font-size: 13px; height: var(--row-h); border-bottom: 1px solid var(--border); } .chapel input { height: auto; } .chapel .ok { color: var(--success); margin-left: auto; } .chapel .out { color: #e0a0a0; margin-left: auto; }
-    .busy { opacity: .7; } .err { color: #e0a0a0; min-height: 14px; }`],
+    .busy { opacity: .7; } .err { color: #e0a0a0; min-height: 14px; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }`],
 })
 export class StepWakeDestinationComponent {
   @Input({ required: true }) form!: FormGroup;

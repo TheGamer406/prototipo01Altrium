@@ -30,7 +30,8 @@ const PLACE: Record<string, string> = { Chapel: 'Capilla', Church: 'Iglesia', Ho
       <section class="card"><h2>Pagador</h2><dl><dt>Paga</dt><dd>{{ s.payer.payer === 'Insurer' ? 'Aseguradora' : 'Familia' }}</dd>
         @if (s.payer.insurerName) { <dt>Aseguradora</dt><dd>{{ s.payer.insurerName }} · póliza {{ s.payer.policyNumber }}</dd> }</dl></section>
     </div>`,
-  styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } dl { display: grid; grid-template-columns: 150px 1fr; gap: 6px 12px; margin: 10px 0 0; } dt { color: var(--text-muted); } dd { margin: 0; }`],
+  styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } dl { display: grid; grid-template-columns: 150px 1fr; gap: 6px 12px; margin: 10px 0 0; } dt { color: var(--text-muted); } dd { margin: 0; }
+    @media (max-width: 1024px) { .grid { grid-template-columns: 1fr; } }`],
 })
 export class DetailSummaryTab {
   @Input({ required: true }) s!: ServiceDetail;

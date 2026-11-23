@@ -25,7 +25,8 @@ const LABEL: Record<string, string> = { Registered: 'Registro', Invoicing: 'Fact
     <div class="grid"><section class="card"><h2>Horas promedio entre estados</h2><div echarts [options]="chart()" theme="acompana" class="chart"></div></section>
       <section class="card"><h2>Etapa más lenta por sede</h2><table class="dense"><thead><tr><th>Sede</th><th>Etapa</th><th class="num">Horas</th></tr></thead>
         <tbody>@for (s of d()!.slowestByBranch; track s.branch) { <tr><td>{{ s.branch }}</td><td>{{ label(s.stage) }}</td><td class="num">{{ s.avgHours }}</td></tr> }</tbody></table></section></div> }`,
-  styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } .chart { height: 320px; }`],
+  styles: [`.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } .chart { height: 320px; }
+    @media (max-width: 1024px) { .grid { grid-template-columns: 1fr; } }`],
 })
 export class EfficiencyPage {
   readonly d = signal<StageTimes | null>(null);

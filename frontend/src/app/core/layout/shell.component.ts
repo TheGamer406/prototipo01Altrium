@@ -23,7 +23,8 @@ import { FooterComponent } from './footer.component';
   imports: [RouterOutlet, SidebarComponent, TopbarComponent, ErpTabsBarComponent, FooterComponent],
   template: `
     @if (admin.enabled()) { <div class="admin-band" role="status">Modo admin del demo: las simulaciones y el reinicio están disponibles en el menú Admin.</div> }
-    <div class="shell" [class.collapsed]="layout.collapsed()">
+    <div class="shell" [class.collapsed]="layout.collapsed() && !layout.isMobile()" [class.mobile-open]="layout.mobileOpen()">
+      <div class="scrim" (click)="layout.mobileOpen.set(false)"></div>
       <app-sidebar class="side" />
       <app-topbar class="top" />
       <main class="main">
@@ -40,7 +41,17 @@ import { FooterComponent } from './footer.component';
     .side { grid-row: 2; grid-column: 1; background: var(--surface); border-right: 1px solid var(--border); overflow: hidden; }
     .top { grid-row: 1; grid-column: 1 / 3; background: var(--surface); border-bottom: 1px solid var(--border); }
     .main { grid-row: 2; grid-column: 2; display: flex; flex-direction: column; min-height: 0; }
-    .content { flex: 1; overflow: auto; padding: 24px; }`],
+    .content { flex: 1; overflow: auto; padding: 24px; }
+    .scrim { display: none; }
+    @media (max-width: 1024px) { .content { padding: 16px; } }
+    @media (max-width: 768px) {
+      .shell, .shell.collapsed { grid-template-columns: 1fr; }
+      .top, .main { grid-column: 1; }
+      .side { position: fixed; top: calc(var(--topbar-h) + 24px * 0); bottom: 0; left: 0; width: var(--sidebar-w); z-index: 30; transform: translateX(-100%); transition: transform var(--transition); }
+      .shell.mobile-open .side { transform: none; }
+      .shell.mobile-open .scrim { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 20; }
+      .content { padding: 12px; }
+    }`],
 })
 export class ShellComponent {
   readonly admin = inject(AdminModeService);

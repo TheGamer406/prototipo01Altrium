@@ -28,7 +28,8 @@ import { ColonesPipe } from '../../../shared/pipes/colones.pipe';
       }
     </div>`,
   styles: [`.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } .pk { text-align: left; display: flex; flex-direction: column; gap: 4px; cursor: pointer; color: inherit; font: inherit; transition: border-color var(--transition); }
-    .pk.sel { border-color: var(--accent); background: var(--accent-soft); } .pk img { width: 100%; height: 120px; object-fit: cover; border-radius: var(--radius); } .price { font-size: 18px; font-weight: 600; }`],
+    .pk.sel { border-color: var(--accent); background: var(--accent-soft); } .pk img { width: 100%; height: 120px; object-fit: cover; border-radius: var(--radius); } .price { font-size: 18px; font-weight: 600; }
+    @media (max-width: 768px) { .cards { grid-template-columns: 1fr; } }`],
 })
 export class StepPackageComponent {
   @Input() packages: Package[] = [];
