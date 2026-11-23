@@ -7,5 +7,18 @@
  * Devuelve:   Nada; es estado. Hereda Id, CreatedAt y UpdatedAt de Entity.
  * Se conecta: ← RegisterPaymentHandler
  * Reglas:     RF-08
- * Estado:     Pendiente
+ * Estado:     Completo
  */
+
+using Acompana.Domain.Common;
+using Acompana.Domain.Enums;
+
+namespace Acompana.Domain.Billing;
+
+public class Payment : GuidEntity
+{
+    public Guid InvoiceId { get; set; }
+    public PaymentMethod Method { get; set; }
+    public decimal AmountCrc { get; set; }
+    public DateTimeOffset PaidAt { get; set; }
+}
